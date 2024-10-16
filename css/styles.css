@@ -1,0 +1,218 @@
+/* inicia o css do login */
+#bodylogin {
+  margin: 0;
+  font-family: 'Helvetica', sans-serif;
+  background: url("../image.png") no-repeat center center fixed;
+  background-size: cover;
+}
+
+.container-body {
+  display: flex;
+  height: 100vh;
+}
+
+.left-side {
+  flex: 2;
+  height: 70%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-left: 10%;
+  margin-right: 15%;
+}
+
+.left-side h1 {
+  top: 50%;
+  font-family: "Gill Sans", sans-serif;
+  font-size: 60px;
+  color: white;
+}
+
+.right-side {
+  flex: 1;
+  background-color: rgba(0, 0, 0, 0.9);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 60px;
+}
+
+.right-side h1 {
+  margin-bottom: 30px;
+}
+
+.right-side input {
+  width: 100%;
+  padding: 15px;
+  margin-bottom: 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 15px;
+}
+
+.right-side button {
+  background-color: dodgerblue;
+  border: none;
+  padding: 15px;
+  width: 100%;
+  border-radius: 5px;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.right-side button:hover {
+  background-color: deepskyblue;
+}
+
+.right-side a {
+  color: white;
+  text-decoration: none;
+  margin-bottom: 20px;
+}
+
+.right-side a:hover {
+  text-decoration: underline;
+}
+/* termina o css do login */
+
+/* inicia o css da tela inicial */
+#telainicial {
+  background-color: rgb(211, 211, 211);
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  text-align: center;
+}
+
+a {
+  text-decoration: none;
+  color: rgb(12, 12, 12);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse; 
+}
+th, td {
+  padding: 9px;
+  text-align: fixed;
+  border: 1px solid #ddd;
+}
+thead th {
+  position: sticky;
+   top: 0;
+  background-color: #f2f2f2;
+}
+tbody {
+  display: block;
+   height: 200px; /*Defina a altura desejada */
+  overflow-y: scroll;
+}
+thead, tbody tr {
+  display: table;   
+  width: 100%;
+   table-layout: fixed;
+}
+
+.descricao1 {
+  visibility: hidden;
+  width: 150px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 5px;
+
+  
+  padding: 10px;
+  position: absolute;
+  /* bottom: 100%; */
+  z-index: 1;
+  top: -60px;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+/* Quando o mouse passa sobre o produto, a descrição aparece */
+.produto:hover .descricao1 {
+  visibility: visible;
+  opacity: 1;
+}
+
+.produto {
+  position: relative;
+  cursor: pointer;
+}
+
+/* acaba o css da tela inicial */
+
+/* começa o css da tela de cadastro de senha */
+#cadastrarsenha {
+  font-family: Arial, sans-serif;
+  background-color: rgb(211, 211, 211);
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+} 
+
+/* deixar do jeito que esta a tabela e ajustar pra ver se nao ficou erro em alguma outra pagina */
+.container-cadastro {
+  background-color: white;
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 300px;
+  text-align: center;
+}
+
+h1 {
+  margin-bottom: 20px;
+}
+
+form input[type="text"],
+form input[type="email"],
+form input[type="password"] {
+  width: calc(100% - 22px);
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+form input[type="submit"] {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
+}
+
+form input[type="submit"]:hover {
+  background-color: blue;
+}
+
+.msg {
+  color: red;
+  margin-bottom: 15px;
+}
+
+.back-link {
+  display: inline-block;
+  margin-top: 20px;
+  color: #007BFF;
+  text-decoration: none;
+}
+
+.back-link:hover {
+  text-decoration: underline;
+}
+/* termina o css da tela de cadastro de senha */
+
+
