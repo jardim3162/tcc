@@ -14,6 +14,6 @@ $materi= $_POST['id_material'];
 echo "Os pedidos foram : $materi, $quantidade";
 
 ?><br>
-<a href="Telainicial.php">Voltar</a>    
+<a href="Telainicialusuario.php">Voltar</a>    
 </body>
 </html>

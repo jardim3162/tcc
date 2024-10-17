@@ -41,6 +41,7 @@ if ($result) {
         <th>Produto</th>
         <th>Estoque</th>
         <th>Quantidade</th>
+        <th>Ajuda</th>
       </tr>
     </thead>
     <tbody style="overflow:visible">
@@ -57,14 +58,15 @@ if ($result) {
           <td>
             <form action="pedido.php" method="post">
               <input type="hidden" name="id_material" value="<?php echo $material['id_material']; ?>">
-              <input type="number" name="quantidade" value="null" min="0" max="<?php echo $material['estoque']; ?>">
+              <input type="number" name="quantidade" placeholder= "Quantidade" value="null" min="0" max="<?php echo $material['estoque']; ?>">
           </td>
+          <td>Selecione a quantidade desejada</td>
         </tr>
       <?php endforeach; ?>
     </tbody>
   </table>
 </div><br>
-<a href="form-material.php" class="btn btn-primary">Efetuar Pedido</button>
+<a href="pedido.php" class="btn btn-primary">Efetuar Pedido</button>
 </form>   
 </body>
 </html>
