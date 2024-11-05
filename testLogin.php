@@ -19,6 +19,7 @@ if (isset($_POST['submit']) && !empty($_POST['Email']) && !empty($_POST['Senha']
         exit();
     } if (mysqli_num_rows($result) > 0 && $usuario['tipo_usuario'] == 0) {
         $_SESSION['Email'] = $email;
+        $_SESSION['id_usuario'] = $usuario['id_usuario'];
          header('Location: Telainicialusuario.php');
         exit();
     }

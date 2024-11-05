@@ -57,6 +57,7 @@ if ($result) {
            <td><?php echo $material['estoque']; ?></td>
           <td>
             <form action="pedido.php" method="post">
+              <input type="hidden" name="id_usuario" value="<?php echo $_SESSION['id_usuario']; ?>">
               <input type="hidden" name="id_material" value="<?php echo $material['id_material']; ?>">
               <input type="number" name="quantidade" placeholder= "Quantidade" value="null" min="0" max="<?php echo $material['estoque']; ?>">
           </td>
@@ -66,7 +67,7 @@ if ($result) {
     </tbody>
   </table>
 </div><br>
-<a href="pedido.php" class="btn btn-primary">Efetuar Pedido</button>
+<button type="submit" class="btn btn-primary">Efetuar Pedido</button>
 </form>   
 </body>
 </html>

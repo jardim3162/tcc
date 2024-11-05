@@ -1,3 +1,11 @@
+<?php
+$ped= array();
+foreach($ped as $valor){
+$ped = $valor;    
+}
+
+var_dump($ped);
+?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -8,10 +16,11 @@
 <body>
 <?php
 
-$quantidade = $_POST['quantidade'];
+
+// $quantidade = $_POST['quantidade'];
 // $materi= $_POST['id_material'];
 //ESTA IMPRIMINDO NA TELA SOMENTE O ID DO PRIMEIRO E O ULTIMO MATERIAL DA TABELA, ARRUMAR
-echo "Os pedidos foram :$quantidade";
+// echo "Os pedidos foram :$quantidade";
 
 ?><br>
 <a href="Telainicialusuario.php">Voltar</a>    
