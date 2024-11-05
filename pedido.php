@@ -1,8 +1,12 @@
 <?php
 $ped= array();
-foreach($ped as $chave =>$valor)
-$ped= array("id_usuario" =>$_POST['id_usuario'], "id_material" =>$_POST['id_material'], "quantidade" =>$_POST['quantidade']
-);
+$ped= array("id_usuario" =>$_POST['id_usuario'], "id_material" =>$_POST['id_material'], "quantidade" =>$_POST['quantidade']);
+foreach($ped as $valor){
+
+    echo $valor['id_usuario'];
+}
+
+
 var_dump($ped);
 ?>
 <!DOCTYPE html>

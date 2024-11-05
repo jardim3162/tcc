@@ -53,7 +53,7 @@ if ($result) {
        
             <?php echo $material['nome']; ?>  
           </td>
-          
+          adicionar um add na parte da quantidade e exibir as informações como exibição dando a função do usuario excluir e editar o pedido antes de enviar selecionar o botão abaixo de tudo para envio final e exibir as informações dos pedidos usando um for para o historico
            <td><?php echo $material['estoque']; ?></td>
           <td>
             <form action="pedido.php" method="post">
