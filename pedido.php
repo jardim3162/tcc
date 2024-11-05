@@ -1,9 +1,8 @@
 <?php
 $ped= array();
-foreach($ped as $valor){
-$ped = $valor;    
-}
-
+foreach($ped as $chave =>$valor)
+$ped= array("id_usuario" =>$_POST['id_usuario'], "id_material" =>$_POST['id_material'], "quantidade" =>$_POST['quantidade']
+);
 var_dump($ped);
 ?>
 <!DOCTYPE html>
@@ -17,10 +16,10 @@ var_dump($ped);
 <?php
 
 
-// $quantidade = $_POST['quantidade'];
+$quantidade = $_POST['quantidade'];
 // $materi= $_POST['id_material'];
 //ESTA IMPRIMINDO NA TELA SOMENTE O ID DO PRIMEIRO E O ULTIMO MATERIAL DA TABELA, ARRUMAR
-// echo "Os pedidos foram :$quantidade";
+echo "Os pedidos foram :$quantidade";
 
 ?><br>
 <a href="Telainicialusuario.php">Voltar</a>    

@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1:3306
--- Tempo de geração: 31-Out-2024 às 19:39
--- Versão do servidor: 8.0.31
--- versão do PHP: 8.0.26
+-- Host: 127.0.0.1
+-- Tempo de geração: 05/11/2024 às 01:45
+-- Versão do servidor: 10.4.32-MariaDB
+-- Versão do PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,20 +24,18 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `material`
+-- Estrutura para tabela `material`
 --
 
-DROP TABLE IF EXISTS `material`;
-CREATE TABLE IF NOT EXISTS `material` (
-  `id_material` int NOT NULL AUTO_INCREMENT,
-  `nome` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `estoque` int NOT NULL,
-  `descricao` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  PRIMARY KEY (`id_material`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+CREATE TABLE `material` (
+  `id_material` int(11) NOT NULL,
+  `nome` varchar(255) NOT NULL,
+  `estoque` int(11) NOT NULL,
+  `descricao` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Extraindo dados da tabela `material`
+-- Despejando dados para a tabela `material`
 --
 
 INSERT INTO `material` (`id_material`, `nome`, `estoque`, `descricao`) VALUES
@@ -45,30 +43,31 @@ INSERT INTO `material` (`id_material`, `nome`, `estoque`, `descricao`) VALUES
 (9, 'Detergente', 10, 'detergente, marca ipan, cor laranja, 700ml'),
 (11, 'Sabão em Pó', 10, 'Sabão em Pó, marca OMO'),
 (15, 'papel sulfite', 6, 'papel sulfite, a4, cor pardo'),
-(16, 'papel toalha', 4, 'papel toalha, tamanho 20ml, cor branca');
+(16, 'papel toalha', 4, 'papel toalha, tamanho 20ml, cor branca'),
+(18, 'seila', 12, 'fdsfdsafdsf'),
+(20, 'teste', 12, 'testetesteteste'),
+(21, 'teste2', 17, 'kdjsbfdkjsafjbkadsfbjkdsabjkfdbkjsfbkjadsfbkj');
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `pedido`
+-- Estrutura para tabela `pedido`
 --
 
-DROP TABLE IF EXISTS `pedido`;
-CREATE TABLE IF NOT EXISTS `pedido` (
-  `id_pedido` int NOT NULL AUTO_INCREMENT,
+CREATE TABLE `pedido` (
+  `id_pedido` int(11) NOT NULL,
   `data_pedido` date NOT NULL,
-  `quantidade` int NOT NULL,
-  PRIMARY KEY (`id_pedido`)
+  `quantidade` int(11) NOT NULL,
+  `id_usuario` int(255) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `recuperar-senha`
+-- Estrutura para tabela `recuperar-senha`
 --
 
-DROP TABLE IF EXISTS `recuperar-senha`;
-CREATE TABLE IF NOT EXISTS `recuperar-senha` (
+CREATE TABLE `recuperar-senha` (
   `email` varchar(255) NOT NULL,
   `data_criacao` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -76,26 +75,69 @@ CREATE TABLE IF NOT EXISTS `recuperar-senha` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `usuario`
+-- Estrutura para tabela `usuario`
 --
 
-DROP TABLE IF EXISTS `usuario`;
-CREATE TABLE IF NOT EXISTS `usuario` (
-  `id_usuario` int NOT NULL AUTO_INCREMENT,
+CREATE TABLE `usuario` (
+  `id_usuario` int(11) NOT NULL,
   `nome` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
   `senha` varchar(255) NOT NULL,
-  PRIMARY KEY (`id_usuario`),
-  UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `tipo_usuario` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Extraindo dados da tabela `usuario`
+-- Despejando dados para a tabela `usuario`
 --
 
-INSERT INTO `usuario` (`id_usuario`, `nome`, `email`, `senha`) VALUES
-(1, 'Thiago', 'thiago.krug@iffarroupilha.edu.br', '123'),
-(5, 'João', 'joao@mail.com', '123');
+INSERT INTO `usuario` (`id_usuario`, `nome`, `email`, `senha`, `tipo_usuario`) VALUES
+(6, 'adm', 'adm@gmail.com', '1234', 1),
+(7, 'joao', 'joao@gmail.com', '1234', 0);
+
+--
+-- Índices para tabelas despejadas
+--
+
+--
+-- Índices de tabela `material`
+--
+ALTER TABLE `material`
+  ADD PRIMARY KEY (`id_material`);
+
+--
+-- Índices de tabela `pedido`
+--
+ALTER TABLE `pedido`
+  ADD PRIMARY KEY (`id_pedido`);
+
+--
+-- Índices de tabela `usuario`
+--
+ALTER TABLE `usuario`
+  ADD PRIMARY KEY (`id_usuario`),
+  ADD UNIQUE KEY `email` (`email`);
+
+--
+-- AUTO_INCREMENT para tabelas despejadas
+--
+
+--
+-- AUTO_INCREMENT de tabela `material`
+--
+ALTER TABLE `material`
+  MODIFY `id_material` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+
+--
+-- AUTO_INCREMENT de tabela `pedido`
+--
+ALTER TABLE `pedido`
+  MODIFY `id_pedido` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de tabela `usuario`
+--
+ALTER TABLE `usuario`
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
