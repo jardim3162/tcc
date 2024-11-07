@@ -14,6 +14,8 @@ if ($result) {
 } else {
   echo mysqli_errno(mysql: $conexao) . ": " . mysqli_error($conexao);
 }
+
+$sql= "INSERT INTO `pedido`(`quantidade`, `id_usuario`, `id_pedido`, `id_material`, `nome_material`) VALUES ('[value-1]','[value-2]','[value-3]','[value-4]','[value-5]','[value-6]')";
 ?>
 
 <!DOCTYPE html>
@@ -33,7 +35,9 @@ if ($result) {
 <body id="telainicial">
   <div class="container" style="overflow-y:auto; margin-top: 5%;">
   <i class="bi bi-person-circle text-success" style="font-size: 40px;" style="font-family: 'Helvetica';"> Logado</i>
-  <table>
+  <form action="pedido.php" method="post">
+  <table> 
+    <!-- arrumar as bordas deixar mais nitido -->
     <thead>
       <tr>
         <!-- arrumar a tabela deixar a estilização branca deixar mais centralizado a tabela-->
@@ -53,12 +57,12 @@ if ($result) {
        
             <?php echo $material['nome']; ?>  
           </td>
-          adicionar um add na parte da quantidade e exibir as informações como exibição dando a função do usuario excluir e editar o pedido antes de enviar selecionar o botão abaixo de tudo para envio final e exibir as informações dos pedidos usando um for para o historico
+          <!-- adicionar um add na parte da quantidade e exibir as informações como exibição dando a função do usuario excluir e editar o pedido antes de enviar selecionar o botão abaixo de tudo para envio final e exibir as informações dos pedidos usando um for para o historico -->
            <td><?php echo $material['estoque']; ?></td>
           <td>
-            <form action="pedido.php" method="post">
               <input type="hidden" name="id_usuario" value="<?php echo $_SESSION['id_usuario']; ?>">
               <input type="hidden" name="id_material" value="<?php echo $material['id_material']; ?>">
+              <input type="hidden" name="nome" value="<?php echo $material['nome']; ?>">
               <input type="number" name="quantidade" placeholder= "Quantidade" value="null" min="0" max="<?php echo $material['estoque']; ?>">
           </td>
           <td>Selecione a quantidade desejada</td>
