@@ -1,21 +1,28 @@
 <?php
 session_start();
 require_once "conexao.php";
-$conexao = conectar();
-if (!isset($_SESSION['Email'])) {
-  header('Location: Login.php');
-  exit();
-}
+require_once "funcoes.php";
 
-$sql = "SELECT * FROM material";
-$result = mysqli_query(mysql: $conexao, query: $sql);
-if ($result) {
-  $materiais = mysqli_fetch_all(result: $result, mode: MYSQLI_ASSOC);
-} else {
-  echo mysqli_errno(mysql: $conexao) . ": " . mysqli_error($conexao);
-}
+// Processa o pedido ao enviar o formulário implementar depois
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+  foreach ($_POST['pedidos'] as $pedido) {
+      $id_usuario = $_SESSION['id_usuario'];
+      $id_material = $pedido['id_material'];
+      $nome_material = $pedido['nome'];
+      $quantidade = (int) $pedido['quantidade'];
 
-$sql= "INSERT INTO `pedido`(`quantidade`, `id_usuario`, `id_pedido`, `id_material`, `nome_material`) VALUES ('[value-1]','[value-2]','[value-3]','[value-4]','[value-5]','[value-6]')";
+      // Valida a quantidade
+      if ($quantidade > 0) {
+          // Insere no banco de dados
+          $sql = "INSERT INTO pedido (quantidade, id_usuario, id_material, nome_material) 
+                  VALUES ('$quantidade', '$id_usuario', '$id_material', '$nome_material')";
+          $result = mysqli_query($conexao, $sql);
+          if (!$result) {
+              echo "Erro ao salvar pedido: " . mysqli_error($conexao);
+          }
+        }
+      }
+    }
 ?>
 
 <!DOCTYPE html>
@@ -45,7 +52,6 @@ $sql= "INSERT INTO `pedido`(`quantidade`, `id_usuario`, `id_pedido`, `id_materia
         <th>Produto</th>
         <th>Estoque</th>
         <th>Quantidade</th>
-        <th>Ajuda</th>
       </tr>
     </thead>
     <tbody style="overflow:visible">
@@ -65,7 +71,6 @@ $sql= "INSERT INTO `pedido`(`quantidade`, `id_usuario`, `id_pedido`, `id_materia
               <input type="hidden" name="nome" value="<?php echo $material['nome']; ?>">
               <input type="number" name="quantidade" placeholder= "Quantidade" value="null" min="0" max="<?php echo $material['estoque']; ?>">
           </td>
-          <td>Selecione a quantidade desejada</td>
         </tr>
       <?php endforeach; ?>
     </tbody>
