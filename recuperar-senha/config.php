@@ -1,10 +1,10 @@
 <?php
 
 $config = [
-    'host' => '',
-    'user' => '',
+    'host' => 'localhost',
+    'user' => 'root',
     'pass' => '',
-    'db'   => '',
-    'email' => '',
-    'senha_email' => ''
+    'db'   => 'tcc',
+    'email' => 'joao.2020316204@aluno.iffar.edu.br',
+    'senha_email' => 'ljxg klsd hhwd xaky'
 ];

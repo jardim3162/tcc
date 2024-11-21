@@ -28,7 +28,6 @@ require_once "funcoes.php";
         <th>ID</th>
         <th>Produto</th>
         <th>Estoque</th>
-        <th>Quantidade</th>
         <th>Opções</th>
       </tr>
     </thead>
@@ -44,11 +43,6 @@ require_once "funcoes.php";
           </td>
           
            <td><?php echo $material['estoque']; ?></td>
-          <td>
-            <form action="pedido.php" method="post">
-              <input type="hidden" name="id_material" value="<?php echo $material['id_material']; ?>">
-              <input type="number" name="quantidade" value="null" min="0" max="<?php echo $material['estoque']; ?>">
-          </td>
           <td>
             <a class="btn btn-sm btn-dark" href="form-alterarmaterial.php?id_material=<?php echo $material['id_material']; ?>">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">

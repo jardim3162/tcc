@@ -1,13 +1,13 @@
 <?php
 function conectar()
 {
-    $conexao = mysqli_connect("localhost", "root", "", "tcc");
-    if ($conexao == false) {
-        die("Erro ao conectar a base de dados! " .
-            mysqli_connect_errno() . ": " .
-            mysqli_connect_error());
+    include "recuperar-senha/config.php";
+    $conexao = mysqli_connect($config['host'],$config['user'], $config['pass'], $config['db']);
+    if ($conexao === false) {
+        echo "Erro ao conectar à base dados. Nº do erro:" . mysqli_connect_errno() . "." .
+            mysqli_connect_error();
+        die();
     }
-
     return $conexao;
 }
 function executarSQL($conexao, $sql)

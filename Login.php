@@ -20,7 +20,7 @@
                 <input type="password" name="Senha" placeholder="Senha" required><br>
                 <button type="submit" name="submit">Entrar</button><br><br><br>
             </form>
-            <a href="form-alterarsenha.php">Esqueceu a Senha?</a>
+            <a href="recuperar-senha/form-alterarsenha.php">Esqueceu a Senha?</a>
             <a href="CadastrarSenha.php">Cadastrar-se?</a>
         </div>
     </div>

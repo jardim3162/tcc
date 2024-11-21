@@ -4,7 +4,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
-require_once "conexao.php";
+require_once "../conexao.php";
 $conexao = conectar();
 
 $email = $_POST['email'];
@@ -20,9 +20,9 @@ if ($usuario == null) {
 //gerar um token unico
 $token = bin2hex(random_bytes(50));
 
-require_once 'PHPMailer/src/PHPMailer.php';
-require_once 'PHPMailer/src/SMTP.php';
-require_once 'PHPMailer/src/Exception.php';
+require_once '../PHPMailer/src/PHPMailer.php';
+require_once '../PHPMailer/src/SMTP.php';
+require_once '../PHPMailer/src/Exception.php';
 include 'config.php';
 
 
@@ -32,8 +32,7 @@ try {
     $mail->CharSet = 'UTF-8';
     $mail->Encoding = 'base64';
     $mail->setLanguage('br');
-    //$mail->SMTPDebug = SMTP::DEBUG_OFF;  //tira as mensagens
-    $mail->SMTPDebug = SMTP::DEBUG_SERVER; //imprime as mensagens
+    //$mail->SMTPDebug = SMTP::DEBUG_OFF;  //tira as mensagens //imprime as mensagens
     $mail->isSMTP();                       //envia o email usando SMTP
     $mail->Host = 'smtp.gmail.com';        //Set the SMTP server to send through
     $mail->SMTPAuth = true;                //Enable SMTP authentication
