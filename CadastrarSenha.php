@@ -1,6 +1,3 @@
-<?php
-session_start();
-?>
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -14,12 +11,6 @@ session_start();
 <body id="cadastrarsenha">
     <div class="container-cadastro">
         <h1>Cadastre seu Usuário</h1>
-        <?php
-        if (isset($_SESSION['msg'])) {
-            echo '<div class="msg">' . $_SESSION['msg'] . '</div>';
-            unset($_SESSION['msg']);
-        }
-        ?>
         <form method="POST" action="cadastrar.php">
             <input type="text" name="nome" placeholder="Nome" required><br>
             <input type="email" name="email" placeholder="Email" required><br>

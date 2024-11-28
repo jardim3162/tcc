@@ -7,13 +7,20 @@ $nome = $_POST['nome'];
 $email = $_POST['email'];
 $senha = $_POST['senha'];
 
-$sql = "INSERT INTO usuario (nome, email, senha) VALUES ('$nome', '$email', '$senha')";
+// Gera o hash da senha
+$senhaHash = password_hash($senha, PASSWORD_DEFAULT);
+
+// Corrige a query para usar o hash da senha
+$sql = "INSERT INTO usuario (nome, email, senha) VALUES ('$nome', '$email', '$senhaHash')";
+
+// Executa a query
 $result = mysqli_query($conexao, $sql);
+
 if ($result) {
-    $_SESSION['msg'] = "<p style='color:green;'> Usuario cadastrado com sucesso</p>";
-    header("Location: CadastrarSenha.php");
+    header("Location: Login.php");
 } else {
-    $_SESSION['msg'] = "<p style='color:red;'> Usuario não foi cadastrado</p>";
+    $_SESSION['msg'] = "<p style='color:red;'>Usuário não foi cadastrado</p>";
+    error_log(mysqli_errno($conexao) . ": " . mysqli_error($conexao));
     header("Location: CadastrarSenha.php");
-    echo mysqli_errno($conexao) . ": " . mysqli_error($conexao);
 }
+?>
