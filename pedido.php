@@ -10,12 +10,6 @@ if ($result) {
 }
 
 foreach ($ped as $pedido) {
-  echo $pedido['id_usuario'];
-  echo $pedido['id_usuario'];
-  "<br>";
-  echo $pedido['id_material'];
-  echo $pedido['quantidade'];
-  echo $pedido['nome_material'];
 }
 ?>
 <!DOCTYPE html>
@@ -24,13 +18,16 @@ foreach ($ped as $pedido) {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>Lista de Pedidos</title>
 </head>
 
 <body>
   <?php
   //ESTA IMPRIMINDO NA TELA SOMENTE O ID DO PRIMEIRO E O ULTIMO MATERIAL DA TABELA, ARRUMAR
-  echo "Os pedidos foram : $pedido";
+  echo "Os pedidos foram :" . "<br>" .
+  "Usuario Pedinte: " . $pedido['id_usuario'] . "<br>" .
+  "Quantidade Pedida: " . $pedido['quantidade'] . "<br>" .
+  "Material Pedido: " . $pedido['nome_material'] . ".";
   ?><br>
   <a href="Telainicialusuario.php">Voltar</a>
 </body>

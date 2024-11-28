@@ -2,27 +2,6 @@
 session_start();
 require_once "conexao.php";
 require_once "funcoes.php";
-
-// Processa o pedido ao enviar o formulário implementar depois
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  foreach ($_POST['pedidos'] as $pedido) {
-      $id_usuario = $_SESSION['id_usuario'];
-      $id_material = $pedido['id_material'];
-      $nome_material = $pedido['nome'];
-      $quantidade = (int) $pedido['quantidade'];
-
-      // Valida a quantidade
-      if ($quantidade > 0) {
-          // Insere no banco de dados
-          $sql = "INSERT INTO pedido (quantidade, id_usuario, id_material, nome_material) 
-                  VALUES ('$quantidade', '$id_usuario', '$id_material', '$nome_material')";
-          $result = mysqli_query($conexao, $sql);
-          if (!$result) {
-              echo "Erro ao salvar pedido: " . mysqli_error($conexao);
-          }
-        }
-      }
-    }
 ?>
 
 <!DOCTYPE html>
