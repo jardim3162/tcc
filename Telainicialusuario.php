@@ -43,8 +43,8 @@ require_once "funcoes.php";
            <td><?php echo $material['estoque']; ?></td>
            <form action="pedido.php" method="post">
           <td>
-              <input type="hidden" name="id_material" value="<?php echo $material['id_material']; ?>">
-              <input type="number" name="quantidade" placeholder= "Quantidade" value="null" min="0" max="<?php echo $material['estoque']; ?>">
+              <input type="hidden" name="id_material[]" value="<?php echo $material['id_material']; ?>">
+              <input type="number" name="quantidade[]" placeholder= "Quantidade" value="null" min="0" max="<?php echo $material['estoque']; ?>">
           </td>
         </tr>
       <?php endforeach; ?>

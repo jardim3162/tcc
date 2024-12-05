@@ -1,7 +1,11 @@
 <?php
 require_once "conexao.php";
 $conexao = conectar();
-$sql = "SELECT * FROM pedido";
+
+$vetor1= $_POST['quantidade'];
+$vetor2= $_POST['id_material'];
+
+$sql = " SELECT * FROM pedido";
 $result = mysqli_query(mysql: $conexao, query: $sql);
 if ($result) {
   $ped = mysqli_fetch_all(result: $result, mode: MYSQLI_ASSOC);
@@ -9,8 +13,15 @@ if ($result) {
   echo mysqli_errno(mysql: $conexao) . ": " . mysqli_error($conexao);
 }
 
-foreach ($ped as $pedido) {
+foreach ($vetor1 as $pedido) {
+   $pedido = $vetor1;
 }
+
+
+foreach ($vetor2 as $pedido) {
+  
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -24,10 +35,9 @@ foreach ($ped as $pedido) {
 <body>
   <?php
   //ESTA IMPRIMINDO NA TELA SOMENTE O ID DO PRIMEIRO E O ULTIMO MATERIAL DA TABELA, ARRUMAR
-  echo "Os pedidos foram :" . "<br>" .
-  "Usuario Pedinte: " . $pedido['id_usuario'] . "<br>" .
-  "Quantidade Pedida: " . $pedido['quantidade'] . "<br>" .
-  "Material Pedido: " . $pedido['nome_material'] . ".";
+  echo "a quantidade pedida foi: " . $vetor1 . ".";
+  // var_dump($vetor1);
+  // var_dump($vetor2);
   ?><br>
   <a href="Telainicialusuario.php">Voltar</a>
 </body>
