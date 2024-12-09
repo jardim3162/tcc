@@ -2,27 +2,40 @@
 require_once "conexao.php";
 $conexao = conectar();
 
-$vetor1= $_POST['quantidade'];
-$vetor2= $_POST['id_material'];
+// Receber os dados enviados via POST
+$vet1 = $_POST['id_material'];
+$vet2 = $_POST['quantidade'];
+var_dump($vet1);
+var_dump($vet2);
 
-$sql = " SELECT * FROM pedido";
-$result = mysqli_query(mysql: $conexao, query: $sql);
-if ($result) {
-  $ped = mysqli_fetch_all(result: $result, mode: MYSQLI_ASSOC);
+// Verificar se os dados são arrays
+if (is_array($vet1) && is_array($vet2)) {
+    foreach ($vet1 as $index => $id_material) {
+        $quantidade = $vet2[$index] ?? null; // Obter quantidade correspondente
+
+        // Validar os dados recebidos
+        $id_material = mysqli_real_escape_string($conexao, $id_material);
+        $quantidade = mysqli_real_escape_string($conexao, $quantidade);
+
+        if ($quantidade !== null) {
+            // Inserir os dados no banco
+            $sql = "INSERT INTO pedido (id_material, quantidade) VALUES ('$id_material', '$quantidade')";
+            $result = mysqli_query($conexao, $sql);
+
+            if (!$result) {
+                echo "Erro ao inserir no banco: " . mysqli_error($conexao);
+                break; // Parar em caso de erro
+            }
+        } else {
+            echo "Erro: Quantidade não encontrada para o material $id_material.<br>";
+        }
+    }
+    echo "Dados inseridos com sucesso!";
 } else {
-  echo mysqli_errno(mysql: $conexao) . ": " . mysqli_error($conexao);
+    echo "Os dados enviados não são válidos.";
 }
-
-foreach ($vetor1 as $pedido) {
-   $pedido = $vetor1;
-}
-
-
-foreach ($vetor2 as $pedido) {
-  
-}
-
 ?>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -35,7 +48,6 @@ foreach ($vetor2 as $pedido) {
 <body>
   <?php
   //ESTA IMPRIMINDO NA TELA SOMENTE O ID DO PRIMEIRO E O ULTIMO MATERIAL DA TABELA, ARRUMAR
-  echo "a quantidade pedida foi: " . $vetor1 . ".";
   // var_dump($vetor1);
   // var_dump($vetor2);
   ?><br>

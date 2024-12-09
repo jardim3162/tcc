@@ -72,7 +72,6 @@ $usuario = mysqli_fetch_assoc($result);
         <div class="user-info">
             <p><span>Nome:</span> <?php echo $usuario['nome']; ?></p>
             <p><span>Email:</span> <?php echo $usuario['email']; ?></p>
-            <p><span>Senha:</span> <?php echo $usuario['senha']; ?></p>
 
             <p><span>Excluir conta</span></p><p><span>Alterar Informações</span></p>
         </div>
