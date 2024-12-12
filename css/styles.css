@@ -80,7 +80,6 @@
 
 /* inicia o css da tela inicial */
 #telainicial {
-  background-color: rgb(211, 211, 211);
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   text-align: center;
 }
@@ -95,9 +94,9 @@ table {
   border-collapse: collapse; 
 }
 th, td {
-  padding: 9px;
+  padding: 10px;
   text-align: fixed;
-  border: 1px solid #ddd;
+  border: 1px solid #000000;
 }
 thead th {
   position: sticky;
