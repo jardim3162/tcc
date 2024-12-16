@@ -74,16 +74,21 @@ require_once "funcoes.php";
   </div>
 
   <div class="container container-form">
-    <h4 class="text-center">Exemplo de Conteúdo</h4>
-    <p class="text-muted">Este espaço pode ser utilizado para formulários ou outra informação relevante.</p>
+    <h4 class="text-center">Pedidos</h4>
+    <p class="text-muted">Realize seu Pedido abaixo.</p>
     <div class="row">
       <div class="col-md-6">
         <h5 class="text-primary">Sessão 1</h5>
-        <p>Adicione aqui as informações desejadas.</p>
+        <?php foreach ($materiais as $material) : ?>
+              <input type="checkbox" name="produtos" value="<?php echo $material['nome']; ?>"> <?php echo $material['nome']; ?><br>
+        <?php endforeach; ?>
+        </select>
       </div>
       <div class="col-md-6">
         <h5 class="text-primary">Sessão 2</h5>
-        <p>Adicione mais informações aqui.</p>
+        <?php foreach ($materiais as $material) : ?>
+              <input type="number" name="produtos" value="<?php echo $material['nome']; ?>"> <?php echo $material['nome']; ?><br>
+        <?php endforeach; ?>
       </div>
     </div>
   </div>
