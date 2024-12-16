@@ -2,6 +2,8 @@
 require_once "conexao.php";
 $conexao = conectar();
 
+$nome_material = $_POST['nome_material'];
+$quantidade = $_POST['quantidade'];
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -13,11 +15,10 @@ $conexao = conectar();
 </head>
 
 <body>
-  <?php
-  //ESTA IMPRIMINDO NA TELA SOMENTE O ID DO PRIMEIRO E O ULTIMO MATERIAL DA TABELA, ARRUMAR
-  // var_dump($vetor1);
-  // var_dump($vetor2);
-  ?><br>
+<?php
+ var_dump($nome_material);
+ var_dump($quantidade);
+ ?>
   <a href="Telainicialusuario.php">Voltar</a>
 </body>
 

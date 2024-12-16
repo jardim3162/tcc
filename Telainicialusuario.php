@@ -19,12 +19,15 @@ require_once "funcoes.php";
       background-color: #f8f9fa;
       font-family: Arial, sans-serif;
     }
+
     #telainicial {
       padding: 20px;
     }
+
     .table {
       margin-top: 20px;
     }
+
     .container-form {
       margin-top: 40px;
       background-color: #ffffff;
@@ -32,9 +35,11 @@ require_once "funcoes.php";
       border-radius: 8px;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     }
+
     .btn-primary {
       margin-top: 20px;
     }
+
     .bi-person-circle {
       font-size: 60px;
       color: #28a745;
@@ -79,24 +84,17 @@ require_once "funcoes.php";
     <div class="row">
       <div class="col-md-6">
         <h5 class="text-primary">Sessão 1</h5>
-        <?php foreach ($materiais as $material) : ?>
-              <input type="checkbox" name="produtos" value="<?php echo $material['nome']; ?>"> <?php echo $material['nome']; ?><br>
-        <?php endforeach; ?>
-        </select>
-      </div>
-      <div class="col-md-6">
+        <form action="pedido.php" method="POST" id="pedido">
+          <label for="pedido">Digite os materiais (separados por vírgula):</label>
+          <input type="text" id="nome_material" name="nome_material" placeholder="Exemplo: sabão, livros, papéis...">
+
         <h5 class="text-primary">Sessão 2</h5>
-        <?php foreach ($materiais as $material) : ?>
-              <input type="number" name="produtos" value="<?php echo $material['nome']; ?>"> <?php echo $material['nome']; ?><br>
-        <?php endforeach; ?>
-      </div>
+          <label for="pedido">Digite as quantidades (separadas por vírgula):</label><br>
+          <input type="text" id="quantidade" name="quantidade" placeholder="Exemplo: 2, 4, 6, 8...">
     </div>
   </div>
-
-  <div class="text-center">
     <button type="submit" class="btn btn-primary">Efetuar Pedido</button>
-  </div>
-
+</div></form>
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pjaaA8dDz/0rRtnBSsmHAEW+D+OGxFb6od3JO2EPldhgxTF3eVoBhwl7l9GErI1j" crossorigin="anonymous"></script>
 </body>
