@@ -2,8 +2,8 @@
 require_once "conexao.php";
 $conexao = conectar();
 
-$sql = "SELECT * FROM pedidos";
-$result = $conexao->query($sql);
+$sql = "SELECT * FROM pedido";
+$result = $conexao->query(query: $sql);
 
 if ($result->num_rows > 0) {
     
@@ -11,13 +11,14 @@ if ($result->num_rows > 0) {
         echo "<h3>Pedido ID: " . $row['id_pedido'] . "</h3>";
 
        
-        $pedido_detalhes = json_decode($row['pedido_detalhes'], true);
+        $pedido_detalhes = json_decode(json: $row['pedido_detalhes'], associative: true);
 
-        echo "Materiais: " . implode(', ', $pedido_detalhes['nome_material']) . "<br>";
-        echo "Quantidades: " . implode(', ', $pedido_detalhes['quantidade']) . "<br>";
+        echo "Materiais: " . implode(separator: ', ', array: $pedido_detalhes['nome_material']) . "<br>";
+        echo "Quantidades: " . implode(separator: ', ', array: $pedido_detalhes['quantidade']) . "<br>";
     }
 } else {
     echo "Nenhum pedido encontrado.";
+
 }
 
 ?>

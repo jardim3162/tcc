@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Tempo de geração: 21-Nov-2024 às 19:47
+-- Tempo de geração: 19-Dez-2024 às 14:17
 -- Versão do servidor: 8.0.31
 -- versão do PHP: 8.0.26
 
@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS `material` (
   `estoque` int NOT NULL,
   `descricao` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`id_material`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Extraindo dados da tabela `material`
@@ -46,7 +46,7 @@ INSERT INTO `material` (`id_material`, `nome`, `estoque`, `descricao`) VALUES
 (11, 'Sabão em Pó', 10, 'Sabão em Pó, marca OMO'),
 (15, 'papel sulfite', 6, 'papel sulfite, a4, cor pardo, teste'),
 (16, 'papel toalha', 4, 'papel toalha, tamanho 20ml, cor branca'),
-(21, 'teste2', 17, 'teste,testeteste');
+(22, 'TESTE', 100, 'apenas um teste para testar');
 
 -- --------------------------------------------------------
 
@@ -57,14 +57,19 @@ INSERT INTO `material` (`id_material`, `nome`, `estoque`, `descricao`) VALUES
 DROP TABLE IF EXISTS `pedido`;
 CREATE TABLE IF NOT EXISTS `pedido` (
   `id_pedido` int NOT NULL AUTO_INCREMENT,
-  `quantidade` int NOT NULL,
-  `id_usuario` int NOT NULL,
-  `id_material` int NOT NULL,
-  `nome_material` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  PRIMARY KEY (`id_pedido`),
-  KEY `id_usuario` (`id_usuario`),
-  KEY `id_material` (`id_material`)
-) ENGINE=MyISAM AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `pedido_detalhes` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `data` date NOT NULL,
+  PRIMARY KEY (`id_pedido`)
+) ENGINE=MyISAM AUTO_INCREMENT=58 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Extraindo dados da tabela `pedido`
+--
+
+INSERT INTO `pedido` (`id_pedido`, `pedido_detalhes`, `data`) VALUES
+(55, '{\"nome_material\":[\"sab\\u00e3o\",\" detergente\",\" papel\"],\"quantidade\":[\"2\",\" 4\",\" 6\"]}', '0000-00-00'),
+(56, '{\"nome_material\":[\"teste. teste. teste\'\"],\"quantidade\":[\"123456\"]}', '0000-00-00'),
+(57, '{\"nome_material\":[\"testetestetest3e\"],\"quantidade\":[\"12345\"]}', '0000-00-00');
 
 -- --------------------------------------------------------
 
@@ -85,7 +90,8 @@ CREATE TABLE IF NOT EXISTS `recuperar-senha` (
 --
 
 INSERT INTO `recuperar-senha` (`email`, `token`, `data_criacao`, `usado`) VALUES
-('joao.2020316204@aluno.iffar.edu.br', '9ec6576fb764fe92d7bc5474094edb1c27395f10a2351eafcd9502c5881d196587119174b761f4a0dc370604a7064fae21bb', '2024-11-21 16:37:56', 0);
+('joao.2020316204@aluno.iffar.edu.br', '9ec6576fb764fe92d7bc5474094edb1c27395f10a2351eafcd9502c5881d196587119174b761f4a0dc370604a7064fae21bb', '2024-11-21 16:37:56', 0),
+('teste2@gmail.com', '493e7baecb50ef4386193b867a8d241683e0a0200686b1093c0ea043585f857587d871569773f844c644a29062ff15e7e853', '2024-11-28 12:59:36', 0);
 
 -- --------------------------------------------------------
 
@@ -102,7 +108,7 @@ CREATE TABLE IF NOT EXISTS `usuario` (
   `tipo_usuario` tinyint(1) NOT NULL,
   PRIMARY KEY (`id_usuario`),
   UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Extraindo dados da tabela `usuario`
@@ -111,7 +117,9 @@ CREATE TABLE IF NOT EXISTS `usuario` (
 INSERT INTO `usuario` (`id_usuario`, `nome`, `email`, `senha`, `tipo_usuario`) VALUES
 (6, 'adm', 'adm@gmail.com', '1234', 1),
 (7, 'joao', 'joao@gmail.com', '1234', 0),
-(8, 'gabriel', 'gabriel@gmail.com', '1234', 0);
+(8, 'gabriel', 'gabriel@gmail.com', '1234', 0),
+(11, 'teste', 'teste@tesfsdfsdt.com', '$2y$10$E2AB4D6tOre10ZIdTGAv1ODEkGFUBZ01GOCqtJkq3CUezNiFmWx76', 1),
+(12, 'teste2', 'teste2@gmail.com', '$2y$10$ApdSDDSCMYUlWKTCrCH5q./VkmljW8I1AR0SHAHT830DlXeE9F5CS', 0);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

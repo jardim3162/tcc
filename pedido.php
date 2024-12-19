@@ -10,14 +10,14 @@ $quantidade = isset($_POST['quantidade']) ? trim($_POST['quantidade']) : '';
 
 if (!empty($nome_material) && !empty($quantidade)) {
    
-    $pedido_detalhes = json_encode([
-        "nome_material" => explode(',', $nome_material),
-        "quantidade" => explode(',', $quantidade)
+    $pedido_detalhes = json_encode(value: [
+        "nome_material" => explode(separator: ',', string: $nome_material),
+        "quantidade" => explode(separator: ',', string: $quantidade)
     ]);
 
 
-    $sql = "INSERT INTO pedidos (pedido_detalhes) VALUES (?)";
-    $stmt = $conexao->prepare($sql);
+    $sql = "INSERT INTO pedido (pedido_detalhes) VALUES (?)";
+    $stmt = $conexao->prepare(query: $sql);
     $stmt->bind_param("s", $pedido_detalhes);
     $stmt->execute();
 
