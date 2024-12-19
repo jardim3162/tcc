@@ -4,22 +4,37 @@ $conexao = conectar();
 
 $nome_material = $_POST['nome_material'];
 $quantidade = $_POST['quantidade'];
+
+$nome_material = isset($_POST['nome_material']) ? trim($_POST['nome_material']) : '';
+$quantidade = isset($_POST['quantidade']) ? trim($_POST['quantidade']) : '';
+
+if (!empty($nome_material) && !empty($quantidade)) {
+   
+    $pedido_detalhes = json_encode([
+        "nome_material" => explode(',', $nome_material),
+        "quantidade" => explode(',', $quantidade)
+    ]);
+
+
+    $sql = "INSERT INTO pedidos (pedido_detalhes) VALUES (?)";
+    $stmt = $conexao->prepare($sql);
+    $stmt->bind_param("s", $pedido_detalhes);
+    $stmt->execute();
+
+    echo "Pedido salvo com sucesso!";
+} else {
+    echo "Por favor, preencha todos os campos.";
+}
+
 ?>
 <!DOCTYPE html>
-<html lang="pt-BR">
-
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lista de Pedidos</title>
+  <title>Document</title>
 </head>
-
 <body>
-<?php
- var_dump($nome_material);
- var_dump($quantidade);
- ?>
-  <a href="Telainicialusuario.php">Voltar</a>
+<a href="Telainicialusuario.php">Voltar</a>
 </body>
-
 </html>
