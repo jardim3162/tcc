@@ -7,7 +7,7 @@
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav">
         <a class="nav-link active" aria-current="page" href="Telainicial.php">Início</a>
-        <a class="nav-link active" href="pedido.php">Pedidos</a>
+        <a class="nav-link active" href="detalhespedido.php">Pedidos</a>
         <a class="nav-link active" href="informacoes.php">Informações</a>
         <a class="nav-link active" href="dados.php">Perfil</a>
         <a class="nav-link active navbar-item" style="margin-left: 150vh;" href="logout.php">Sair</a><svg xmlns="http://www.w3.org/2000/svg" width="30" height="40" fill="currentColor" class="bi bi-power text-danger" viewBox="0 0 16 16">

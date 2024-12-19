@@ -2,6 +2,7 @@
 session_start();
 require_once "conexao.php";
 require_once "funcoes.php";
+$email = $_SESSION['Email'];
 ?>
 
 <!DOCTYPE html>
@@ -82,19 +83,23 @@ require_once "funcoes.php";
     <h4 class="text-center">Pedidos</h4>
     <p class="text-muted">Realize seu Pedido abaixo.</p>
     <div class="row">
-      <div class="col-md-6">
+      <div class="col-md-6"> 
         <h5 class="text-primary">Sessão 1</h5>
         <form action="pedido.php" method="POST" id="pedido">
+          <input type="hidden" name="email" value="<?= $_SESSION['Email']; ?>">
           <label for="pedido">Digite os materiais (separados por vírgula):</label>
-          <input type="text" id="nome_material" name="nome_material" placeholder="Exemplo: sabão, livros, papéis...">
+          <input type="text" id="nome_material" name="nome_material" placeholder="Exemplo: sabão, livros, papéis..." required>
 
         <h5 class="text-primary">Sessão 2</h5>
           <label for="pedido">Digite as quantidades (separadas por vírgula):</label><br>
-          <input type="text" id="quantidade" name="quantidade" placeholder="Exemplo: 2, 4, 6, 8...">
+          <input type="text" id="quantidade" name="quantidade" placeholder="Exemplo: 2, 4, 6, 8..." required>
+          <button type="submit" class="btn btn-primary">Efetuar Pedido</button>
+          </form>
     </div>
   </div>
-    <button type="submit" class="btn btn-primary">Efetuar Pedido</button>
-</div></form>
+    
+</div>
+    
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pjaaA8dDz/0rRtnBSsmHAEW+D+OGxFb6od3JO2EPldhgxTF3eVoBhwl7l9GErI1j" crossorigin="anonymous"></script>
 </body>

@@ -1,9 +1,17 @@
 <?php
+session_start();
 require_once "conexao.php";
+require_once 'PHPmailer/src/PHPMailer.php';
 $conexao = conectar();
+
+use PHPMailer\PHPMailer\PHPMailer;
 
 $nome_material = $_POST['nome_material'];
 $quantidade = $_POST['quantidade'];
+$email = $_POST['email'];
+date_default_timezone_set('America/Sao_Paulo');
+$data = new DateTime('now');
+$agora = $data->format('Y-m-d H:i:s');
 
 $nome_material = isset($_POST['nome_material']) ? trim($_POST['nome_material']) : '';
 $quantidade = isset($_POST['quantidade']) ? trim($_POST['quantidade']) : '';
@@ -16,10 +24,8 @@ if (!empty($nome_material) && !empty($quantidade)) {
     ]);
 
 
-    $sql = "INSERT INTO pedido (pedido_detalhes) VALUES (?)";
-    $stmt = $conexao->prepare(query: $sql);
-    $stmt->bind_param("s", $pedido_detalhes);
-    $stmt->execute();
+    $sql = "INSERT INTO pedido (pedido_detalhes, usuario) VALUES (?)";
+   
 
     echo "Pedido salvo com sucesso!";
 } else {

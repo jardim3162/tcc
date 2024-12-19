@@ -1,3 +1,4 @@
+<?session_destroy();?>
 <!DOCTYPE html>
 <html lang="pt-br">
 
