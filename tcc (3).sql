@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Tempo de geração: 19-Dez-2024 às 19:28
+-- Tempo de geração: 20-Dez-2024 às 12:13
 -- Versão do servidor: 8.0.31
 -- versão do PHP: 8.0.26
 
@@ -57,25 +57,22 @@ INSERT INTO `material` (`id_material`, `nome`, `estoque`, `descricao`) VALUES
 DROP TABLE IF EXISTS `pedido`;
 CREATE TABLE IF NOT EXISTS `pedido` (
   `id_pedido` int NOT NULL AUTO_INCREMENT,
-  `pedido_detalhes` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `data` datetime NOT NULL,
   `usuario` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `nome_material` text COLLATE utf8mb4_general_ci NOT NULL,
+  `quantidade` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`id_pedido`)
-) ENGINE=MyISAM AUTO_INCREMENT=64 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=68 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Extraindo dados da tabela `pedido`
 --
 
-INSERT INTO `pedido` (`id_pedido`, `pedido_detalhes`, `data`, `usuario`) VALUES
-(55, '{\"nome_material\":[\"sab\\u00e3o\",\" detergente\",\" papel\"],\"quantidade\":[\"2\",\" 4\",\" 6\"]}', '0000-00-00 00:00:00', ''),
-(56, '{\"nome_material\":[\"teste. teste. teste\'\"],\"quantidade\":[\"123456\"]}', '0000-00-00 00:00:00', ''),
-(57, '{\"nome_material\":[\"testetestetest3e\"],\"quantidade\":[\"12345\"]}', '0000-00-00 00:00:00', ''),
-(58, '{\"nome_material\":[\"teste\",\"teste\",\"teste\"],\"quantidade\":[\"12345\"]}', '0000-00-00 00:00:00', ''),
-(59, '{\"nome_material\":[\"sasa\",\"ss\"],\"quantidade\":[\"2\",\"3\",\"4\"]}', '0000-00-00 00:00:00', ''),
-(60, '{\"nome_material\":[\"teste\\/teste\\/teste\"],\"quantidade\":[\"1\\/2\\/3\\/4\"]}', '0000-00-00 00:00:00', ''),
-(62, '{\"nome_material\":[\"sab\\u00e3o\",\" detergente\",\" papel\"],\"quantidade\":[\"3\",\"5\",\"4\"]}', '0000-00-00 00:00:00', ''),
-(63, '{\"nome_material\":[\"2\"],\"quantidade\":[\"2\"]}', '0000-00-00 00:00:00', '');
+INSERT INTO `pedido` (`id_pedido`, `data`, `usuario`, `nome_material`, `quantidade`) VALUES
+(64, '0000-00-00 00:00:00', 'teste2@gmail.com', 'sabão, detergente, papel', '2'),
+(65, '0000-00-00 00:00:00', 'teste2@gmail.com', 'teste', '123456'),
+(66, '0000-00-00 00:00:00', 'teste2@gmail.com', 'teste2', '1'),
+(67, '0000-00-00 00:00:00', 'teste2@gmail.com', 'teste, teste, teste, teste', '1, 2, 3, 4, 5');
 
 -- --------------------------------------------------------
 
