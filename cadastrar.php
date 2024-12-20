@@ -7,13 +7,12 @@ $nome = $_POST['nome'];
 $email = $_POST['email'];
 $senha = $_POST['senha'];
 
-// Gera o hash da senha
+
 $senhaHash = password_hash($senha, PASSWORD_DEFAULT);
 
-// Corrige a query para usar o hash da senha
+
 $sql = "INSERT INTO usuario (nome, email, senha) VALUES ('$nome', '$email', '$senhaHash')";
 
-// Executa a query
 $result = mysqli_query($conexao, $sql);
 
 if ($result) {
