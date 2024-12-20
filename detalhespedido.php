@@ -2,8 +2,8 @@
 session_start();
 require_once "conexao.php";
 $conexao = conectar();
-$sql = "SELECT * FROM pedido";
-$result = $conexao->query(query: $sql);
+//usar uma sessão para pegar o id do usuario logado para ele ver seus proprios pedidos
+
 
 
 ?>
