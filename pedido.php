@@ -19,7 +19,7 @@ $agora = $data->format('Y-m-d H:i:s');
     $sql = "INSERT INTO pedido (nome_material, quantidade, usuario) VALUES ('$nome_material', '$quantidade', '$email')";
     $result = mysqli_query($conexao, $sql);
     if ($result) {
-        header("Location: Telainicialusuari o.php");
+        header("Location: Telainicialusuario.php");
     } else {
         header("Location: dadosusuario.php");
     }
