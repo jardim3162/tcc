@@ -31,9 +31,9 @@ $email = $_SESSION['Email'];
     .container-form {
       margin-top: 40px;
       background-color: #ffffff;
-      padding: 20px;
+      padding: 30px;
       border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
 
     .btn-primary {
@@ -41,8 +41,24 @@ $email = $_SESSION['Email'];
     }
 
     .bi-person-circle {
-      font-size: 60px;
+      font-size: 70px;
       color: #28a745;
+    }
+
+    .text-center .h5 {
+      margin-top: 10px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .text-muted {
+      font-size: 0.9rem;
+    }
+
+    .form-section {
+      margin-bottom: 30px;
     }
   </style>
 </head>
@@ -51,53 +67,62 @@ $email = $_SESSION['Email'];
 <body id="telainicial">
   <div class="text-center mb-4">
     <i class="bi bi-person-circle"></i>
-    <p class="h5 text-success mt-2">Logado</p>
+    <p class="h5 text-success">Logado</p>
   </div>
 
   <div class="container">
     <h2 class="text-center mb-4">Estoque de Produtos</h2>
-    <table class="table table-bordered table-striped">
-      <thead class="thead-dark">
-        <tr>
-          <th scope="col">Produto</th>
-          <th scope="col">Estoque</th>
-        </tr>
-      </thead>
-      <tbody>
-        <?php foreach ($materiais as $material) : ?>
+    <div class="table-responsive">
+      <table class="table table-bordered table-striped">
+        <thead class="thead-dark">
           <tr>
-            <td>
-              <strong><?php echo $material['nome']; ?></strong><br>
-              <small class="text-muted">Descrição: <?php echo $material['descricao']; ?></small>
-            </td>
-            <td class="text-center"> <?php echo $material['estoque']; ?> </td>
+            <th scope="col">Produto</th>
+            <th scope="col" class="text-center">Estoque</th>
           </tr>
-        <?php endforeach; ?>
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          <?php foreach ($materiais as $material) : ?>
+            <tr>
+              <td>
+                <strong><?php echo $material['nome']; ?></strong><br>
+                <small class="text-muted">Descrição: <?php echo $material['descricao']; ?></small>
+              </td>
+              <td class="text-center"> <?php echo $material['estoque']; ?> </td>
+            </tr>
+          <?php endforeach; ?>
+        </tbody>
+      </table>
+    </div>
   </div>
 
   <div class="container container-form">
     <h4 class="text-center">Pedidos</h4>
-    <p class="text-muted">Realize seu Pedido abaixo.</p>
-    <div class="row">
-      <div class="col-md-6">
-        <h5 class="text-primary">Sessão 1</h5>
+    <p class="text-muted text-center">Realize seu Pedido abaixo.</p>
+    <div class="row justify-content-center">
+      <div class="col-md-8">
         <form action="pedido.php" method="POST" id="pedido">
           <input type="hidden" name="email" value="<?= $_SESSION['Email']; ?>">
-          <label for="pedido">Digite os materiais (separados por vírgula):</label>
-          <input type="text" id="nome_material" name="nome_material" placeholder="Exemplo: sabão, livros, papéis..." required>
-
-          <h5 class="text-primary">Sessão 2</h5>
-          <label for="pedido">Digite as quantidades (separadas por vírgula):</label><br>
-          <input type="text" id="quantidade" name="quantidade" placeholder="Exemplo: 2, 4, 6, 8..." required>
-          <button type="submit" class="btn btn-primary">Efetuar Pedido</button>
+          <div class="form-section">
+            <h5 class="text-primary">Sessão 1</h5>
+            <div class="form-group">
+              <label for="nome_material">Digite os materiais (separados por vírgula):</label>
+              <input type="text" id="nome_material" name="nome_material" class="form-control" placeholder="Exemplo: sabão, livros, papéis..." required>
+            </div>
+          </div>
+          <div class="form-section">
+            <h5 class="text-primary">Sessão 2</h5>
+            <div class="form-group">
+              <label for="quantidade">Digite as quantidades (separadas por vírgula):</label>
+              <input type="text" id="quantidade" name="quantidade" class="form-control" placeholder="Exemplo: 2, 4, 6, 8..." required>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary btn-block">Efetuar Pedido</button>
         </form>
       </div>
     </div>
   </div>
 
-  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965Dz/0rRtnBSsmHAEW+D+OGxFb6od3JO2EPldhgxTF3eVoBhwl7l9GErI1j" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pjaaA8dDz/0rRtnBSsmHAEW+D+OGxFb6od3JO2EPldhgxTF3eVoBhwl7l9GErI1j" crossorigin="anonymous"></script>
 </body>
 
