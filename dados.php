@@ -63,9 +63,7 @@ $usuario = mysqli_fetch_assoc($result);
 <?php include "navadm.php"; ?>
 <body>
 
-    <!-- Conteúdo de usuário -->
     <div class="user-container">
-        <!-- Ícone do usuário centralizado -->
         <i class="bi bi-person-bounding-box user-icon"></i>
 
         <h1>Dados do Usuário</h1>

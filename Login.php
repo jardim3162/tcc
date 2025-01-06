@@ -12,7 +12,6 @@
 <body id="bodylogin">
     <div class="container-body">
         <div class="left-side">
-            <!-- <h1>SisMude</h1> -->
         </div>
         <div class="right-side">
             <h1>Login</h1>
