@@ -19,11 +19,6 @@ $email = $_SESSION['Email'];
       background-color: #f8f9fa;
       font-family: Arial, sans-serif;
     }
-
-    #telainicial {
-      padding: 20px;
-    }
-
     .table {
       margin-top: 20px;
     }

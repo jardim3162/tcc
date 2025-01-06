@@ -16,7 +16,7 @@ date_default_timezone_set('America/Sao_Paulo');
 $data = new DateTime('now');
 $agora = $data->format('Y-m-d H:i:s');
 
-    $sql = "INSERT INTO pedido (nome_material, quantidade, usuario) VALUES ('$nome_material', '$quantidade', '$email')";
+    $sql = "INSERT INTO pedido (nome_material, quantidade, usuario, data) VALUES ('$nome_material', '$quantidade', '$email', '$agora')";
     $result = mysqli_query($conexao, $sql);
     if ($result) {
         header("Location: Telainicialusuario.php");
