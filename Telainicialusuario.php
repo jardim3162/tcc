@@ -14,48 +14,6 @@ $email = $_SESSION['Email'];
   <link rel="stylesheet" href="css/styles.css?nocache=<?= rand() ?>">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
-  <style>
-    body {
-      background-color: #f8f9fa;
-      font-family: Arial, sans-serif;
-    }
-    .table {
-      margin-top: 20px;
-    }
-
-    .container-form {
-      margin-top: 40px;
-      background-color: #ffffff;
-      padding: 30px;
-      border-radius: 8px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-
-    .btn-primary {
-      margin-top: 20px;
-    }
-
-    .bi-person-circle {
-      font-size: 70px;
-      color: #28a745;
-    }
-
-    .text-center .h5 {
-      margin-top: 10px;
-    }
-
-    .form-group {
-      margin-bottom: 20px;
-    }
-
-    .text-muted {
-      font-size: 0.9rem;
-    }
-
-    .form-section {
-      margin-bottom: 30px;
-    }
-  </style>
 </head>
 <?php include "navusuario.php"; ?>
 
