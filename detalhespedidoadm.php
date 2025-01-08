@@ -5,6 +5,7 @@ $conexao = conectar();
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['marcar_pago'])) {
         $pedido_id = intval($_POST['pedido_id']);
+
         $sql_update_pedido = "UPDATE pedido SET status = 'Pago' WHERE id_pedido = $pedido_id";
         mysqli_query($conexao, $sql_update_pedido);
 
@@ -13,19 +14,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if ($result_pedido && mysqli_num_rows($result_pedido) > 0) {
             $pedido = mysqli_fetch_assoc($result_pedido);
-            $materiais = explode(',', $pedido['nome_material']);
-            $quantidades = explode(',', $pedido['quantidade']);
 
-            foreach ($materiais as $index => $material) {
-                $material = trim($material);
-                $quantidade = intval($quantidades[$index]);
+            $nome_material = trim($pedido['nome_material']);
+            $quantidade = trim($pedido['quantidade']);
 
-                $sql_update_material = "
-                    UPDATE material 
-                    SET estoque = estoque - $quantidade 
-                    WHERE nome = '$material'
-                ";
-                mysqli_query($conexao, $sql_update_material);
+            $materiais = explode(',', $nome_material); 
+            $quantidades = explode(',', $quantidade); 
+
+            if (count($materiais) === count($quantidades)) {
+                foreach ($materiais as $index => $material) {
+                    $material = trim($material);
+                    $quantidade_atual = intval(trim($quantidades[$index]));
+
+                    if (!empty($material) && $quantidade_atual > 0) {
+                        $sql_update_material = "
+                            UPDATE material 
+                            SET estoque = estoque - $quantidade_atual 
+                            WHERE nome = '$material'
+                        ";
+                        mysqli_query($conexao, $sql_update_material);
+                    }
+                }
+            } else {
+                error_log("Inconsistência entre materiais e quantidades no pedido ID: $pedido_id");
             }
         }
     } elseif (isset($_POST['marcar_pendente'])) {
@@ -35,12 +46,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-$sql = "SELECT `id_pedido`, `data`, `nome_material`, `quantidade`, `usuario`, `status` 
-        FROM `pedido`
-        ORDER BY `id_pedido` ASC";
+$sql = "SELECT id_pedido, data, nome_material, quantidade, usuario, status 
+        FROM pedido
+        ORDER BY id_pedido ASC";
 $result = mysqli_query($conexao, $sql);
 ?>
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -90,14 +100,6 @@ $result = mysqli_query($conexao, $sql);
             margin-top: 20px;
         }
     </style>
-    <script>
-        function confirmarAcao(pedidoId) {
-            const confirmar = confirm("Tem certeza que deseja efetuar este pedido? A ação a seguir é irreversível.");
-            if (confirmar) {
-                document.getElementById('form-' + pedidoId).submit();
-            }
-        }
-    </script>
 </head>
 <?php include "navadm.php"; ?>
 
@@ -119,8 +121,7 @@ $result = mysqli_query($conexao, $sql);
                 echo "<button type='submit' class='btn btn-warning'>Marcar como Pendente</button>";
                 echo "<input type='hidden' name='marcar_pendente'>";
             } else {
-                echo "<button type='button' class='btn btn-success' onclick='confirmarAcao({$pedido['id_pedido']})'>Marcar como Pago</button>";
-                echo "<input type='hidden' name='marcar_pago'>";
+                echo "<button type='button' class='btn btn-success' onclick='abrirModal({$pedido['id_pedido']})'>Marcar como Pago</button>";
             }
             echo "</form>";
 
@@ -130,6 +131,39 @@ $result = mysqli_query($conexao, $sql);
         echo "<p class='no-pedidos'>Nenhum pedido encontrado.</p>";
     }
     ?>
+
+    <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmModalLabel">Confirmar Ação</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Tem certeza que deseja marcar este pedido como <strong>Pago</strong>? Esta ação não pode ser desfeita e os respectivos produtos terão que ser atualizados manualmente na tabela caso ocorra um erro.
+                </div>
+                <div class="modal-footer">
+                    <form method="POST" id="confirmForm">
+                        <input type="hidden" name="pedido_id" id="pedidoIdInput">
+                        <input type="hidden" name="marcar_pago">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-success">Confirmar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function abrirModal(pedidoId) {
+            document.getElementById('pedidoIdInput').value = pedidoId;
+            $('#confirmModal').modal('show');
+        }
+    </script>
 </body>
 
 </html>

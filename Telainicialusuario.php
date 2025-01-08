@@ -46,13 +46,12 @@ $email = $_SESSION['Email'];
       </table>
     </div>
   </div>
-
   <div class="container container-form">
     <h4 class="text-center">Pedidos</h4>
     <p class="text-muted text-center">Realize seu Pedido abaixo.</p>
     <div class="row justify-content-center">
       <div class="col-md-8">
-        <form action="pedido.php" method="POST" id="pedido">
+        <form action="pedido.php" method="POST" id="pedido" onsubmit="return confirmarPedido()">
           <input type="hidden" name="email" value="<?= $_SESSION['Email']; ?>">
           <div class="form-section">
             <h5 class="text-primary">Sessão 1</h5>
@@ -74,8 +73,88 @@ $email = $_SESSION['Email'];
     </div>
   </div>
 
-  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965Dz/0rRtnBSsmHAEW+D+OGxFb6od3JO2EPldhgxTF3eVoBhwl7l9GErI1j" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pjaaA8dDz/0rRtnBSsmHAEW+D+OGxFb6od3JO2EPldhgxTF3eVoBhwl7l9GErI1j" crossorigin="anonymous"></script>
-</body>
+  <!-- Modal de Confirmação de Pedido -->
+  <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="confirmModalLabel">Confirmar Pedido</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Tem certeza que deseja realizar este pedido?</p>
+          <p><strong>Materiais:</strong> <span id="confirmMateriais"></span></p>
+          <p><strong>Quantidades:</strong> <span id="confirmQuantidades"></span></p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-primary" id="confirmarEnvio">Confirmar</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
+  <!-- Modal de Aviso para Separação por Vírgulas -->
+  <div class="modal fade" id="commaAlertModal" tabindex="-1" role="dialog" aria-labelledby="commaAlertModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="commaAlertModalLabel">Atenção!</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Os campos 'Materiais' e 'Quantidades' devem ser preenchidos com valores separados apenas por vírgulas.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    function confirmarPedido() {
+      const materiais = document.getElementById("nome_material").value.trim();
+      const quantidades = document.getElementById("quantidade").value.trim();
+
+      if (materiais === "" || quantidades === "") {
+        alert("Preencha todos os campos antes de enviar o pedido.");
+        return false;
+      }
+
+      // Expressão regular ajustada para aceitar vírgulas com ou sem espaços extras
+      const regex = /^[a-zA-ZÀ-ÿ0-9]+(\s*,\s*[a-zA-ZÀ-ÿ0-9]+)*$/;
+
+      // Verificando se os campos de materiais e quantidades estão corretos
+      if (!regex.test(materiais) || !regex.test(quantidades)) {
+        $('#commaAlertModal').modal('show');
+        return false;
+      }
+
+      const materiaisArray = materiais.split(",").map(item => item.trim());
+      const quantidadesArray = quantidades.split(",").map(item => item.trim());
+
+      if (materiaisArray.length !== quantidadesArray.length) {
+        alert("O número de materiais deve corresponder ao número de quantidades.");
+        return false;
+      }
+
+      document.getElementById("confirmMateriais").innerText = materiais;
+      document.getElementById("confirmQuantidades").innerText = quantidades;
+      $('#confirmModal').modal('show');
+
+      return false;
+    }
+
+    document.getElementById("confirmarEnvio").addEventListener("click", function () {
+      document.getElementById("pedido").submit();
+    });
+  </script>
+</body>
 </html>
