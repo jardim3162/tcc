@@ -73,7 +73,6 @@ $email = $_SESSION['Email'];
     </div>
   </div>
 
-  <!-- Modal de Confirmação de Pedido -->
   <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -95,8 +94,6 @@ $email = $_SESSION['Email'];
       </div>
     </div>
   </div>
-
-  <!-- Modal de Aviso para Separação por Vírgulas -->
   <div class="modal fade" id="commaAlertModal" tabindex="-1" role="dialog" aria-labelledby="commaAlertModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -128,10 +125,8 @@ $email = $_SESSION['Email'];
         return false;
       }
 
-      // Expressão regular ajustada para aceitar vírgulas com ou sem espaços extras
       const regex = /^[a-zA-ZÀ-ÿ0-9]+(\s*,\s*[a-zA-ZÀ-ÿ0-9]+)*$/;
 
-      // Verificando se os campos de materiais e quantidades estão corretos
       if (!regex.test(materiais) || !regex.test(quantidades)) {
         $('#commaAlertModal').modal('show');
         return false;
