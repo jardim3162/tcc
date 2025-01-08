@@ -7,23 +7,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $pedido_id = intval($_POST['pedido_id']);
         $sql_update_pedido = "UPDATE pedido SET status = 'Pago' WHERE id_pedido = $pedido_id";
         mysqli_query($conexao, $sql_update_pedido);
-    } elseif (isset($_POST['marcar_pendente'])) {
-        $pedido_id = intval($_POST['pedido_id']);
-        $sql_update_pedido = "UPDATE pedido SET status = 'Pendente' WHERE id_pedido = $pedido_id";
-        mysqli_query($conexao, $sql_update_pedido);
-    }   
+
         $sql_select_pedido = "SELECT nome_material, quantidade FROM pedido WHERE id_pedido = $pedido_id";
         $result_pedido = mysqli_query($conexao, $sql_select_pedido);
-        
+
         if ($result_pedido && mysqli_num_rows($result_pedido) > 0) {
             $pedido = mysqli_fetch_assoc($result_pedido);
             $materiais = explode(',', $pedido['nome_material']);
             $quantidades = explode(',', $pedido['quantidade']);
-            
+
             foreach ($materiais as $index => $material) {
                 $material = trim($material);
                 $quantidade = intval($quantidades[$index]);
-                
+
                 $sql_update_material = "
                     UPDATE material 
                     SET estoque = estoque - $quantidade 
@@ -32,12 +28,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 mysqli_query($conexao, $sql_update_material);
             }
         }
-        
-        $sql_update_pedido = "UPDATE pedido SET status = 'Pago' WHERE id_pedido = $pedido_id";
+    } elseif (isset($_POST['marcar_pendente'])) {
+        $pedido_id = intval($_POST['pedido_id']);
+        $sql_update_pedido = "UPDATE pedido SET status = 'Pendente' WHERE id_pedido = $pedido_id";
         mysqli_query($conexao, $sql_update_pedido);
     }
-
-
+}
 
 $sql = "SELECT `id_pedido`, `data`, `nome_material`, `quantidade`, `usuario`, `status` 
         FROM `pedido`
@@ -94,6 +90,14 @@ $result = mysqli_query($conexao, $sql);
             margin-top: 20px;
         }
     </style>
+    <script>
+        function confirmarAcao(pedidoId) {
+            const confirmar = confirm("Tem certeza que deseja efetuar este pedido? A ação a seguir é irreversível.");
+            if (confirmar) {
+                document.getElementById('form-' + pedidoId).submit();
+            }
+        }
+    </script>
 </head>
 <?php include "navadm.php"; ?>
 
@@ -109,12 +113,14 @@ $result = mysqli_query($conexao, $sql);
             echo "<p><strong>Quantidade:</strong> {$pedido['quantidade']}</p>";
             echo "<p><strong>Status:</strong> {$pedido['status']}</p>";
 
-            echo "<form method='POST'>";
+            echo "<form method='POST' id='form-{$pedido['id_pedido']}'>";
             echo "<input type='hidden' name='pedido_id' value='{$pedido['id_pedido']}'>";
             if ($pedido['status'] === 'Pago') {
-                echo "<button type='submit' name='marcar_pendente'>Marcar como Pendente</button>";
-            } elseif ($pedido['status'] !== 'Pago') {
-                echo "<button type='submit' name='marcar_pago'>Marcar como Pago</button>";
+                echo "<button type='submit' class='btn btn-warning'>Marcar como Pendente</button>";
+                echo "<input type='hidden' name='marcar_pendente'>";
+            } else {
+                echo "<button type='button' class='btn btn-success' onclick='confirmarAcao({$pedido['id_pedido']})'>Marcar como Pago</button>";
+                echo "<input type='hidden' name='marcar_pago'>";
             }
             echo "</form>";
 
