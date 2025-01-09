@@ -77,7 +77,7 @@ $text = "Bem-vindo à nossa página de mais informações! Aqui você vai encont
         }
     </style>
 </head>
-
+<?php include "navusuario.php"; ?>
 <body>
 
     <div class="header">
