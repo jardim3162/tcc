@@ -141,7 +141,7 @@ $result = mysqli_query($conexao, $sql);
                     </button>
                 </div>
                 <div class="modal-body">
-                    Tem certeza que deseja marcar este pedido como <strong>Pago</strong>? Esta ação não pode ser desfeita e os respectivos produtos terão que ser atualizados manualmente na tabela caso ocorra um erro.
+                    Tem certeza que deseja marcar este pedido como <strong>Pago</strong>? Caso esta ação seja desfeita, os respectivos produtos terão que ser atualizados manualmente na tabela.
                 </div>
                 <div class="modal-footer">
                     <form method="POST" id="confirmForm">

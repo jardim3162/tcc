@@ -1,7 +1,7 @@
 <?php
 session_start();
 require_once "conexao.php";
-require_once 'PHPmailer/src/PHPMailer.php';
+require_once 'recuperar-senha/PHPmailer/src/PHPMailer.php';
 $conexao = conectar();
 
 use PHPMailer\PHPMailer\PHPMailer;

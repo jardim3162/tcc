@@ -6,6 +6,7 @@ $email = $_SESSION['Email'];
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -125,9 +126,10 @@ $email = $_SESSION['Email'];
         return false;
       }
 
-      const regex = /^[a-zA-ZÀ-ÿ0-9]+(\s*,\s*[a-zA-ZÀ-ÿ0-9]+)*$/;
+      const regexMateriais = /^[a-zA-ZÀ-ÿ\s]+(\s*,\s*[a-zA-ZÀ-ÿ\s]+)*$/;
+      const regexQuantidades = /^\d+(\s*,\s*\d+)*$/;
 
-      if (!regex.test(materiais) || !regex.test(quantidades)) {
+      if (!regexMateriais.test(materiais) || !regexQuantidades.test(quantidades)) {
         $('#commaAlertModal').modal('show');
         return false;
       }
@@ -142,14 +144,15 @@ $email = $_SESSION['Email'];
 
       document.getElementById("confirmMateriais").innerText = materiais;
       document.getElementById("confirmQuantidades").innerText = quantidades;
+
       $('#confirmModal').modal('show');
 
       return false;
-    }
-
-    document.getElementById("confirmarEnvio").addEventListener("click", function () {
+};
+    document.getElementById("confirmarEnvio").addEventListener("click", function() {
       document.getElementById("pedido").submit();
     });
   </script>
 </body>
+
 </html>
