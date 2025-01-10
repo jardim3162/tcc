@@ -6,5 +6,5 @@ $config = [
     'pass' => '',
     'db'   => 'tcc',
     'email' => 'joao.2020316204@aluno.iffar.edu.br',
-    'senha_email' => 'ljxg klsd hhwd xaky'
+    'senha_email' => 'tjlsljiyypnvckkf'
 ];
