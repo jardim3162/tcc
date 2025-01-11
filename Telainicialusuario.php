@@ -116,8 +116,8 @@ $email = $_SESSION['Email'];
 
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.bundle.min.js"></script>
-  <script>
-    function confirmarPedido() {
+  <script> //javascript funcionando em casa com espacamento entre as palavras dos pedidos teste para ver se e o mesmo git caso clonagem
+function confirmarPedido() {
       const materiais = document.getElementById("nome_material").value.trim();
       const quantidades = document.getElementById("quantidade").value.trim();
 
@@ -152,7 +152,7 @@ $email = $_SESSION['Email'];
     document.getElementById("confirmarEnvio").addEventListener("click", function() {
       document.getElementById("pedido").submit();
     });
-  </script>
+    </script>
 </body>
 
 </html>
