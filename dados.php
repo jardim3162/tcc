@@ -19,7 +19,6 @@ $usuario = mysqli_fetch_assoc($result);
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: rgb(211, 211, 211);
             margin: 0;
             padding: 0;
             display: flex;
@@ -30,7 +29,7 @@ $usuario = mysqli_fetch_assoc($result);
 
         .user-container {
             margin-top: 10%;
-            background-color: #fff;
+            background-color: rgb(211, 211, 211);
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);

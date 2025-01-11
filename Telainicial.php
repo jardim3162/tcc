@@ -23,7 +23,6 @@ require_once "funcoes.php";
     <thead>
       <tr>
         <!-- arrumar a tabela deixar a estilização branca deixar mais centralizado a tabela-->
-        <th>ID</th>
         <th>Produto</th>
         <th>Estoque</th>
         <th>Opções</th>
@@ -32,8 +31,6 @@ require_once "funcoes.php";
     <tbody style="overflow:visible">
       <?php foreach ($materiais as $material) : ?>
         <tr>
-        
-         <td><?php echo $material['id_material']; ?></td>
          <td class="produto">
            <div class="descricao1"> <?php echo $material['descricao']; ?> </div>
        

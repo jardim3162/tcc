@@ -7,7 +7,7 @@
       <div class="navbar-nav">
         <a class="nav-link active" aria-current="page" href="Telainicial.php">Início</a>
         <a class="nav-link active" href="detalhespedidoadm.php">Pedidos</a>
-        <a class="nav-link active" href="detalhespedidoadm.php">Pedido Alternativo</a>
+        <a class="nav-link active" href="pedidoalternativoadm.php">Pedido Alternativo</a>
         <a class="nav-link active" href="dados.php">Perfil</a>
         <a class="nav-link active navbar-item" style="margin-left: 150vh;" href="logout.php">Sair</a><svg xmlns="http://www.w3.org/2000/svg" width="30" height="40" fill="currentColor" class="bi bi-power text-danger" viewBox="0 0 16 16">
         <path d="M7.5 1v7h1V1z"/>
