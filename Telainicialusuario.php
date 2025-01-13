@@ -46,7 +46,12 @@ $email = $_SESSION['Email'];
         </tbody>
       </table>
     </div>
-  </div>
+  </div> 
+  adicionar um pesquisar para filtrar as informações de materiais cadastrados exemplo: usuario poder pesquisar um material pelo nome dele com uma caixa de dialogo e atraves disso mostrar somente os respectivos materiais digitados
+  adicionar um pesquisar tambem na tela inicial do adm 
+  adicionar um pesquisar na area dos pedidos
+  adicionar opções de excluir e alterar o usuario
+  estilzação do tcc
   <div class="container container-form">
     <h4 class="text-center">Pedidos</h4>
     <p class="text-muted text-center">Realize seu Pedido abaixo.</p>
