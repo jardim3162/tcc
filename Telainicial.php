@@ -6,17 +6,17 @@ require_once "funcoes.php";
 $termoPesquisa = isset($_GET['pesquisa']) ? trim($_GET['pesquisa']) : '';
 
 if ($termoPesquisa) {
-    $stmt = $conexao->prepare("SELECT * FROM material WHERE nome LIKE ? OR descricao LIKE ?");
-    $searchTerm = "%$termoPesquisa%";
-    $stmt->bind_param("ss", $searchTerm, $searchTerm);
+    $result = $conexao->prepare("SELECT * FROM material WHERE nome LIKE ? OR descricao LIKE ?");
+    $procurarTerm = "%$termoPesquisa%";
+    $result->bind_param("ss", $procurarTerm, $procurarTerm);
 } else {
-    $stmt = $conexao->prepare("SELECT * FROM material");
+    $result = $conexao->prepare("SELECT * FROM material");
 }
 
-$stmt->execute();
-$result = $stmt->get_result();
-$materiais = $result->fetch_all(MYSQLI_ASSOC);
-$stmt->close();
+$result->execute();
+$resultado = $result->get_result();
+$materiais = $resultado->fetch_all(MYSQLI_ASSOC);
+$result->close();
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
