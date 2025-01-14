@@ -3,7 +3,7 @@ require_once "conexao.php";
 $conexao = conectar();
 $sql = "SELECT `id_alternativo`, `nome_material`, `descricao`, `motivo`
         FROM `alternativo`
-        ORDER BY `id_alternativo` ASC";
+        ORDER BY `id_alternativo` DESC";
 $result = mysqli_query($conexao, $sql);
 ?>
 
@@ -58,9 +58,9 @@ $result = mysqli_query($conexao, $sql);
         }
     </style>
 </head>
-<?php include "navadm.php"; ?>
-
-<body>
+<?php include "navadm.php"; ?><br>
+<br>
+<body><br>
     <h2>Pedidos Alternativos</h2>
     <?php
     if (mysqli_num_rows($result) > 0) {

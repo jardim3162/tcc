@@ -18,8 +18,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $nome_material = trim($pedido['nome_material']);
             $quantidade = trim($pedido['quantidade']);
 
-            $materiais = explode(',', $nome_material); 
-            $quantidades = explode(',', $quantidade); 
+            $materiais = explode(',', $nome_material);
+            $quantidades = explode(',', $quantidade);
 
             if (count($materiais) === count($quantidades)) {
                 foreach ($materiais as $index => $material) {
@@ -48,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 $sql = "SELECT id_pedido, data, nome_material, quantidade, usuario, status 
         FROM pedido
-        ORDER BY id_pedido ASC";
+        ORDER BY id_pedido DESC";
 $result = mysqli_query($conexao, $sql);
 ?>
 <!DOCTYPE html>
@@ -100,9 +100,9 @@ $result = mysqli_query($conexao, $sql);
         }
     </style>
 </head>
-<?php include "navadm.php"; ?>
-
-<body>
+<?php include "navadm.php"; ?><br>
+<br>
+<body><br>
     <h2>Todos os Pedidos</h2>
     <?php
     if (mysqli_num_rows($result) > 0) {

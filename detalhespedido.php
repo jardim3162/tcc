@@ -9,7 +9,7 @@ if (!isset($_SESSION['Email'])) {
 $email = $_SESSION['Email'];
 $sql = "SELECT `id_pedido`, `data`, `nome_material`, `quantidade`, `usuario`, `status` 
         FROM `pedido`
-        ORDER BY `id_pedido` ASC";
+        ORDER BY `id_pedido` DESC";
 $result = mysqli_query($conexao, $sql);
 ?>
 
@@ -64,9 +64,9 @@ $result = mysqli_query($conexao, $sql);
         }
     </style>
 </head>
-<?php include "navusuario.php"; ?>
-
-<body>
+<?php include "navusuario.php"; ?><br>
+<br>
+<body><br>
     <h2>Seus Pedidos</h2>
     <?php
     if (mysqli_num_rows($result) > 0) {

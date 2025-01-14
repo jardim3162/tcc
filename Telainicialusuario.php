@@ -2,7 +2,23 @@
 session_start();
 require_once "conexao.php";
 require_once "funcoes.php";
+
 $email = $_SESSION['Email'];
+
+$termoPesquisa = isset($_GET['pesquisa']) ? trim($_GET['pesquisa']) : '';
+
+if ($termoPesquisa) {
+  $stmt = $conexao->prepare("SELECT * FROM material WHERE nome LIKE ? OR descricao LIKE ?");
+  $searchTerm = "%$termoPesquisa%";
+  $stmt->bind_param("ss", $searchTerm, $searchTerm);
+} else {
+  $stmt = $conexao->prepare("SELECT * FROM material");
+}
+
+$stmt->execute();
+$result = $stmt->get_result();
+$materiais = $result->fetch_all(MYSQLI_ASSOC);
+$stmt->close();
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -15,16 +31,24 @@ $email = $_SESSION['Email'];
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
 </head>
-<?php include "navusuario.php"; ?>
+<?php include "navusuario.php"; ?><br>
+<br>
 
-<body id="telainicial">
-  <div class="text-center mb-4">
-    <i class="bi bi-person-circle"></i>
-    <p class="h5 text-success">Logado</p>
-  </div>
-
+<body id="telainicial"><br>
   <div class="container">
-    <h2 class="text-center mb-4">Estoque de Produtos</h2>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h2>Estoque de Produtos</h2>
+      <form method="GET" action="" class="form-inline">
+        <div class="input-group">
+          <input type="text" name="pesquisa" class="form-control" placeholder="Pesquisar material"
+            value="<?= htmlspecialchars($termoPesquisa); ?>">
+          <div class="input-group-append">
+            <button type="submit" class="btn btn-primary">Pesquisar</button>
+          </div>
+        </div>
+      </form>
+    </div>
+
     <div class="table-responsive">
       <table class="table table-bordered table-striped">
         <thead class="thead-dark">
@@ -34,25 +58,27 @@ $email = $_SESSION['Email'];
           </tr>
         </thead>
         <tbody>
-          <?php foreach ($materiais as $material) : ?>
+          <?php if (empty($materiais)) : ?>
             <tr>
-              <td>
-                <strong><?php echo $material['nome']; ?></strong><br>
-                <small class="text-muted">Descrição: <?php echo $material['descricao']; ?></small>
-              </td>
-              <td class="text-center"> <?php echo $material['estoque']; ?> </td>
+              <td colspan="2" class="text-center">Nenhum material encontrado.</td>
             </tr>
-          <?php endforeach; ?>
+          <?php else : ?>
+            <?php foreach ($materiais as $material) : ?>
+              <tr>
+                <td>
+                  <strong><?= htmlspecialchars($material['nome']); ?></strong><br>
+                  <small class="text-muted">Descrição: <?= htmlspecialchars($material['descricao']); ?></small>
+                </td>
+                <td class="text-center"><?= htmlspecialchars($material['estoque']); ?></td>
+              </tr>
+            <?php endforeach; ?>
+          <?php endif; ?>
         </tbody>
       </table>
     </div>
-  </div> 
-  adicionar um pesquisar para filtrar as informações de materiais cadastrados exemplo: usuario poder pesquisar um material pelo nome dele com uma caixa de dialogo e atraves disso mostrar somente os respectivos materiais digitados
-  adicionar um pesquisar tambem na tela inicial do adm 
-  adicionar um pesquisar na area dos pedidos
-  adicionar opções de excluir e alterar o usuario
-  estilzação do tcc
-  <div class="container container-form">
+  </div>
+
+  <div class="container container-form mt-5">
     <h4 class="text-center">Pedidos</h4>
     <p class="text-muted text-center">Realize seu Pedido abaixo.</p>
     <div class="row justify-content-center">
@@ -100,6 +126,7 @@ $email = $_SESSION['Email'];
       </div>
     </div>
   </div>
+
   <div class="modal fade" id="commaAlertModal" tabindex="-1" role="dialog" aria-labelledby="commaAlertModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -121,8 +148,8 @@ $email = $_SESSION['Email'];
 
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.bundle.min.js"></script>
-  <script> //javascript funcionando em casa com espacamento entre as palavras dos pedidos teste para ver se e o mesmo git caso clonagem
-function confirmarPedido() {
+  <script>
+    function confirmarPedido() {
       const materiais = document.getElementById("nome_material").value.trim();
       const quantidades = document.getElementById("quantidade").value.trim();
 
@@ -151,13 +178,13 @@ function confirmarPedido() {
       document.getElementById("confirmQuantidades").innerText = quantidades;
 
       $('#confirmModal').modal('show');
-
       return false;
-};
+    };
+
     document.getElementById("confirmarEnvio").addEventListener("click", function() {
       document.getElementById("pedido").submit();
     });
-    </script>
+  </script>
 </body>
 
 </html>

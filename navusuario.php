@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="position: fixed";>
     <a class="navbar-brand" style="height: 55px;"><img src="logo.png" alt="Logo IFFAR" class="logo" style="width: auto;   height: 50px; width: auto; margin-right: 15px;"></a>
     <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
