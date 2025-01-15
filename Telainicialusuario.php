@@ -4,21 +4,6 @@ require_once "conexao.php";
 require_once "funcoes.php";
 
 $email = $_SESSION['Email'];
-
-$termoPesquisa = isset($_GET['pesquisa']) ? trim($_GET['pesquisa']) : '';
-
-if ($termoPesquisa) {
-  $result = $conexao->prepare("SELECT * FROM material WHERE nome LIKE ? OR descricao LIKE ?");
-  $procurarTerm = "%$termoPesquisa%";
-  $result->bind_param("ss", $procurarTerm, $procurarTerm);
-} else {
-  $result = $conexao->prepare("SELECT * FROM material");
-}
-
-$result->execute();
-$resultado = $result->get_result();
-$materiais = $resultado->fetch_all(MYSQLI_ASSOC);
-$result->close();
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -38,10 +23,10 @@ $result->close();
   <div class="container">
     <div class="d-flex justify-content-between align-items-center mb-4">
       <h2>Estoque de Produtos</h2>
-      <form method="GET" action="" class="form-inline">
+      <form method="GET" class="form-inline">
         <div class="input-group">
           <input type="text" name="pesquisa" class="form-control" placeholder="Pesquisar material"
-            value="<?= htmlspecialchars($termoPesquisa); ?>">
+            value="<?= $termoPesquisa; ?>">
           <div class="input-group-append">
             <button type="submit" class="btn btn-primary">Pesquisar</button>
           </div>

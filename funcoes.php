@@ -51,4 +51,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
       }
     }
+
+///PESQUISAR DA PAGINA DAS PAGINAS
+$termoPesquisa = isset($_GET['pesquisa']) ? trim($_GET['pesquisa']) : '';
+
+if ($termoPesquisa) {
+    $result = $conexao->prepare("SELECT * FROM material WHERE nome LIKE ? OR descricao LIKE ?");
+    $procurarTerm = "%$termoPesquisa%";
+    $result->bind_param("ss", $procurarTerm, $procurarTerm);
+} else {
+    $result = $conexao->prepare("SELECT * FROM material");
+}
+
+$result->execute();
+$resultado = $result->get_result();
+$materiais = $resultado->fetch_all(MYSQLI_ASSOC);
+$result->close();
+
 ?>
