@@ -18,6 +18,7 @@ $usuario = mysqli_fetch_assoc($result);
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css">
     <style>
         body {
+            background-color: #f0f2f5;
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
@@ -29,7 +30,7 @@ $usuario = mysqli_fetch_assoc($result);
 
         .user-container {
             margin-top: 10%;
-            background-color: rgb(211, 211, 211);
+            background-color: rgb(255, 255, 255);
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -60,6 +61,7 @@ $usuario = mysqli_fetch_assoc($result);
     </style>
 </head>
 <?php include "navusuario.php"; ?>
+
 <body>
     <div class="user-container">
         <i class="bi bi-person-bounding-box user-icon"></i>
@@ -68,6 +70,14 @@ $usuario = mysqli_fetch_assoc($result);
         <div class="user-info">
             <p><span>Nome:</span> <?php echo $usuario['nome']; ?></p>
             <p><span>Email:</span> <?php echo $usuario['email']; ?></p>
+
+            <p><span>Alterar Informações </span><a class="btn btn-sm btn-dark" href="form-alterarusuario.php?id_usuario=<?= $usuario['id_usuario']; ?>" title="Editar">
+                <i class="bi bi-pencil"></i>
+            </a></p>
+
+            <p><span>Excluir Conta</span>  <a class="btn btn-sm btn-danger" href="excluirusuario.php?id_usuario=<?= $usuario['id_usuario']; ?>" title="Excluir">
+                <i class="bi bi-trash"></i>
+            </a></p>
         </div>
     </div>
 
