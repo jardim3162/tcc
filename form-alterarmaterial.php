@@ -19,9 +19,11 @@ if ($result) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <title>Formulário de Alteração</title>
     <style>
-         body {
+        body {
             font-family: Arial, sans-serif;
             background-color: #f2f2f2;
             margin: 0;
@@ -37,7 +39,7 @@ if ($result) {
             padding: 50px;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 300px;
+            width: 500px;
         }
 
         h1 {
@@ -72,7 +74,7 @@ if ($result) {
             padding: 10px;
             border-radius: 5px;
             cursor: pointer;
-            width: 100%;
+            width: 95%;
         }
 
         input[type="submit"]:hover {
@@ -90,19 +92,28 @@ if ($result) {
         .back-link:hover {
             text-decoration: underline;
         }
+
+        .btn-block {
+            display: block;
+            width: 95%;
+            background-color: red;
+            color:rgb(136, 0, 0);
+        }
     </style>
 </head>
 
 <body>
     <div class="container">
-    <form action="alterarmaterial.php" method="post">
-        <h1>Alterar Material</h1>
-        <input type="hidden" name="id_material" value="<?= $material['id_material'] ?>"><br>
-        Nome: <input type="text" name="nome" value="<?= $material['nome'] ?>"><br>
-        Estoque: <input type="number" name="estoque" value="<?= $material['estoque'] ?>"><br>
-        Descrição: <input type="text" name="descricao" value="<?= $material['descricao'] ?>"><br>
-        <input type="submit" value="Salvar"><br>
-    </form>
-</body></div>
+        <form action="alterarmaterial.php" method="post">
+            <h1>Alterar Material</h1>
+            <input type="hidden" name="id_material" value="<?= $material['id_material'] ?>"><br>
+            Nome: <input type="text" name="nome" value="<?= $material['nome'] ?>"><br>
+            Estoque: <input type="number" name="estoque" value="<?= $material['estoque'] ?>"><br>
+            Descrição: <input type="text" name="descricao" value="<?= $material['descricao'] ?>"><br>
+            <input type="submit" value="Salvar"><br>
+            <a href="Telainicial.php" class="btn btn-primary btn-block">Cancelar</button></a>
+        </form>
+</body>
+</div>
 
 </html>
