@@ -32,25 +32,24 @@ if ($result) {
 //fim
 
 //funcionamento do form
+$conexao = conectar();
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   foreach ($_POST['pedidos'] as $pedido) {
       $id_usuario = $_SESSION['id_usuario'];
-      $id_material = $pedido['id_material'];
+      $id_material = (int) $pedido['id_material'];
       $nome_material = $pedido['nome'];
       $quantidade = (int) $pedido['quantidade'];
 
-
-      if ($quantidade > 0) {
-
+      if ($quantidade > 0 && $id_material > 0) {
           $sql = "INSERT INTO pedido (quantidade, id_usuario, id_material, nome_material) 
                   VALUES ('$quantidade', '$id_usuario', '$id_material', '$nome_material')";
           $result = mysqli_query($conexao, $sql);
           if (!$result) {
               echo "Erro ao salvar pedido: " . mysqli_error($conexao);
           }
-        }
       }
-    }
+  }
+}
 
 ///PESQUISAR DA PAGINA DAS PAGINAS
 $termoPesquisa = isset($_GET['pesquisa']) ? trim($_GET['pesquisa']) : '';
