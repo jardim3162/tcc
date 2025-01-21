@@ -11,7 +11,6 @@ if ($result) {
     echo mysqli_errno($conexao) . ": " . mysqli_error($conexao);
     die();
 }
-
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -92,12 +91,9 @@ if ($result) {
         .back-link:hover {
             text-decoration: underline;
         }
-
-        .btn-block {
+        .btn-block{
             display: block;
             width: 95%;
-            background-color: red;
-            color:rgb(136, 0, 0);
         }
     </style>
 </head>
@@ -111,9 +107,9 @@ if ($result) {
             Estoque: <input type="number" name="estoque" value="<?= $material['estoque'] ?>"><br>
             Descrição: <input type="text" name="descricao" value="<?= $material['descricao'] ?>"><br>
             <input type="submit" value="Salvar"><br>
-            <a href="Telainicial.php" class="btn btn-primary btn-block">Cancelar</button></a>
+            <a href="Telainicial.php" class="btn btn-secondary btn-block">Cancelar</a>
         </form>
+    </div>
 </body>
-</div>
 
 </html>

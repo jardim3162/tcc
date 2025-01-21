@@ -16,7 +16,7 @@ require_once "funcoes.php";
 </head>
 <?php include "navadm.php"; ?>
 <body id="telainicial">
-  <div class="container" style="margin-top: 5%;">
+  <div class="container" style="margin-top: 10%;">
     <br>
     <div class="d-flex justify-content-between align-items-center mb-4">
       <h2>Estoque de Materiais</h2>
@@ -30,41 +30,43 @@ require_once "funcoes.php";
         </div>
       </form>
     </div>
-    
-    <table class="table table-bordered table-hover">
-      <thead class="thead-dark text-center">
-        <tr>
-          <th>Produto</th>
-          <th>Estoque</th>
-          <th>Opções</th>
-        </tr>
-      </thead>
-      <tbody>
-        <?php if (empty($materiais)) : ?>
+
+    <div class="table-responsive" style="max-height: 800px; overflow-y: auto; margin: 0 auto; width: 100%;">
+      <table class="table table-bordered table-hover text-center">
+        <thead class="thead-dark">
           <tr>
-            <td colspan="3" class="text-center">Nenhum material encontrado.</td>
+            <th>Produto</th>
+            <th>Estoque</th>
+            <th>Opções</th>
           </tr>
-        <?php else : ?>
-          <?php foreach ($materiais as $material) : ?>
+        </thead>
+        <tbody>
+          <?php if (empty($materiais)) : ?>
             <tr>
-              <td>
-                <strong><?= htmlspecialchars($material['nome']); ?></strong><br>
-                <small class="text-muted">Descrição: <?= htmlspecialchars($material['descricao']); ?></small>
-              </td>
-              <td class="text-center"><?= htmlspecialchars($material['estoque']); ?></td>
-              <td class="text-center">
-                <a class="btn btn-sm btn-dark" href="form-alterarmaterial.php?id_material=<?= $material['id_material']; ?>" title="Editar">
-                  <i class="bi bi-pencil"></i>
-                </a>
-                <a class="btn btn-sm btn-danger" href="excluirmaterial.php?id_material=<?= $material['id_material']; ?>" title="Excluir">
-                  <i class="bi bi-trash"></i>
-                </a>
-              </td>
+              <td colspan="3" class="text-center">Nenhum material encontrado.</td>
             </tr>
-          <?php endforeach; ?>
-        <?php endif; ?>
-      </tbody>
-    </table>
+          <?php else : ?>
+            <?php foreach ($materiais as $material) : ?>
+              <tr>
+                <td>
+                  <strong><?= ($material['nome']); ?></strong><br>
+                  <small class="text-muted">Descrição: <?= ($material['descricao']); ?></small>
+                </td>
+                <td><?= ($material['estoque']); ?></td>
+                <td>
+                  <a class="btn btn-sm btn-dark" href="form-alterarmaterial.php?id_material=<?= $material['id_material']; ?>" title="Editar">
+                    <i class="bi bi-pencil"></i>
+                  </a>
+                  <a class="btn btn-sm btn-danger" href="excluirmaterial.php?id_material=<?= $material['id_material']; ?>" title="Excluir" onclick="return confirm('Tem certeza de que deseja excluir este material? Esta ação não pode ser desfeita.');">
+                    <i class="bi bi-trash"></i>
+                  </a>
+                </td>
+              </tr>
+            <?php endforeach; ?>
+          <?php endif; ?>
+        </tbody>
+      </table>
+    </div>
     <div class="text-right">
       <a href="form-material.php" class="btn btn-primary">Cadastrar Material</a>
     </div>

@@ -75,12 +75,15 @@ $usuario = mysqli_fetch_assoc($result);
                 <i class="bi bi-pencil"></i>
             </a></p>
 
-            <p><span>Excluir Conta</span>  <a class="btn btn-sm btn-danger" href="excluirusuario.php?id_usuario=<?= $usuario['id_usuario']; ?>" title="Excluir">
-                <i class="bi bi-trash"></i>
-            </a></p>
+            <p><span>Excluir Conta</span>  
+                <a class="btn btn-sm btn-danger" href="excluirusuario.php?id_usuario=<?= $usuario['id_usuario']; ?>" 
+                   title="Excluir" 
+                   onclick="return confirm('Tem certeza de que deseja excluir sua conta? Esta ação não pode ser desfeita.');">
+                    <i class="bi bi-trash"></i>
+                </a>
+            </p>
         </div>
     </div>
-
 </body>
 
 </html>
