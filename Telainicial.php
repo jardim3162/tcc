@@ -57,7 +57,7 @@ require_once "funcoes.php";
                   <a class="btn btn-sm btn-dark" href="form-alterarmaterial.php?id_material=<?= $material['id_material']; ?>" title="Editar">
                     <i class="bi bi-pencil"></i>
                   </a>
-                  <a class="btn btn-sm btn-danger" href="excluirmaterial.php?id_material=<?= $material['id_material']; ?>" title="Excluir">
+                  <a class="btn btn-sm btn-danger" href="excluirmaterial.php?id_material=<?= $material['id_material']; ?>" title="Excluir" onclick="return confirm('Tem certeza de que deseja excluir este material? Esta ação não pode ser desfeita.');">
                     <i class="bi bi-trash"></i>
                   </a>
                 </td>

@@ -36,13 +36,12 @@ $conexao = conectar();
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   foreach ($_POST['pedidos'] as $pedido) {
       $id_usuario = $_SESSION['id_usuario'];
-      $id_material = (int) $pedido['id_material'];
       $nome_material = $pedido['nome'];
       $quantidade = (int) $pedido['quantidade'];
 
       if ($quantidade > 0 && $id_material > 0) {
-          $sql = "INSERT INTO pedido (quantidade, id_usuario, id_material, nome_material) 
-                  VALUES ('$quantidade', '$id_usuario', '$id_material', '$nome_material')";
+          $sql = "INSERT INTO pedido (quantidade, id_usuario, nome_material) 
+                  VALUES ('$quantidade', '$id_usuario', '$nome_material')";
           $result = mysqli_query($conexao, $sql);
           if (!$result) {
               echo "Erro ao salvar pedido: " . mysqli_error($conexao);
