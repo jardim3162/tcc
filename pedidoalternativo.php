@@ -12,6 +12,9 @@ require_once "conexao.php";
     <link rel="stylesheet" href="css/styles.css?">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.css" rel="stylesheet">
+   <!--script sweet alert-->
+   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.all.min.js"></script>
     <style>
         body {
             background-color: #f0f2f5;
@@ -68,7 +71,26 @@ require_once "conexao.php";
     </style>
 </head>
 <?php include "navusuario.php"; ?>
-<body>
+<body> 
+    <!-- topend, topstart , topmiddle -->
+<?php if (isset($_SESSION['pedido_sucess']) && $_SESSION['pedido_sucess'] == true) { ?>
+        <script>
+            Swal.fire({
+                position: "top-middle", 
+                icon: "success",
+                title: "Pedido efetuado com sucesso!",
+                showConfirmButton: false,
+                timer: 1500,
+                customClass: {
+                popup: 'small-popup' // Aplique uma classe CSS personalizada
+                }
+            });
+        </script>
+        <?php
+        // Apagar a variável de sessão para evitar que o alerta apareça novamente após a próxima atualização da página
+        unset($_SESSION['pedido_sucess']);
+        ?>
+    <?php } ?>
     <div class="container">
         <div class="col-md-12 mx-auto">
             <form action="cadastroalternativo.php" method="POST">

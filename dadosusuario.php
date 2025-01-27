@@ -20,23 +20,16 @@ $usuario = mysqli_fetch_assoc($result);
         body {
             background-color: #f0f2f5;
             font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            height: 100vh;
         }
-
         .user-container {
-            margin-top: 10%;
             background-color: rgb(255, 255, 255);
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             max-width: 400px;
-            width: 100%;
+            width: 300px;
             text-align: center;
+            margin: auto;
         }
 
         h1 {
@@ -63,7 +56,7 @@ $usuario = mysqli_fetch_assoc($result);
 <?php include "navusuario.php"; ?>
 
 <body>
-    <div class="user-container">
+    <div class="user-container" style="margin-top: 20vh;">
         <i class="bi bi-person-bounding-box user-icon"></i>
 
         <h1>Dados do Usuário</h1>
@@ -72,13 +65,13 @@ $usuario = mysqli_fetch_assoc($result);
             <p><span>Email:</span> <?php echo $usuario['email']; ?></p>
 
             <p><span>Alterar Informações </span><a class="btn btn-sm btn-dark" href="form-alterarusuario.php?id_usuario=<?= $usuario['id_usuario']; ?>" title="Editar">
-                <i class="bi bi-pencil"></i>
-            </a></p>
+                    <i class="bi bi-pencil"></i>
+                </a></p>
 
-            <p><span>Excluir Conta</span>  
-                <a class="btn btn-sm btn-danger" href="excluirusuario.php?id_usuario=<?= $usuario['id_usuario']; ?>" 
-                   title="Excluir" 
-                   onclick="return confirm('Tem certeza de que deseja excluir sua conta? Esta ação não pode ser desfeita.');">
+            <p><span>Excluir Conta</span>
+                <a class="btn btn-sm btn-danger" href="excluirusuario.php?id_usuario=<?= $usuario['id_usuario']; ?>"
+                    title="Excluir"
+                    onclick="return confirm('Tem certeza de que deseja excluir sua conta? Esta ação não pode ser desfeita.');">
                     <i class="bi bi-trash"></i>
                 </a>
             </p>

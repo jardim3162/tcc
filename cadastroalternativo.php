@@ -1,7 +1,8 @@
 <?php
+session_start();
 require_once "conexao.php";
 $conexao = conectar();
-
+$_SESSION['pedido_sucess'] = true;
 $nome = $_POST['nome'];
 $descricao = $_POST['descricao'];
 $motivo = $_POST['motivo'];

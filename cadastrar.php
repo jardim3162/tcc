@@ -2,7 +2,7 @@
 session_start();
 require_once "conexao.php";
 $conexao = conectar();
-
+$_SESSION['cadastro_sucess'] = true;
 $nome = $_POST['nome'];
 $email = $_POST['email'];
 $senha = $_POST['senha'];
@@ -16,7 +16,7 @@ $sql = "INSERT INTO usuario (nome, email, senha) VALUES ('$nome', '$email', '$se
 $result = mysqli_query($conexao, $sql);
 
 if ($result) {
-    header("Location: Login.php");
+    header("Location: Cadastrarsenha.php");
 } else {
     $_SESSION['msg'] = "<p style='color:red;'>Usuário não foi cadastrado</p>";
     error_log(mysqli_errno($conexao) . ": " . mysqli_error($conexao));

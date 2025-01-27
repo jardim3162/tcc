@@ -90,7 +90,8 @@
         <form action="recuperar.php" method="post">
             <label for="email">Email:</label>
             <input type="email" id="email" name="email" required>
-            <input type="submit" value="Enviar email de recuperação">
+            <input type="submit" value="Enviar email de recuperação"><br>
+            <a class="back-link" href="../Login.php">Voltar</a>
         </form>
         <footer>© 2024 Sua Empresa</footer>
     </div>
