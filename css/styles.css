@@ -105,44 +105,13 @@ thead th {
 }
 tbody {
   display: block;
-   height: 200px; /*Defina a altura desejada */
+   height: 350px; /*Defina a altura desejada */
   overflow-y: scroll;
 }
 thead, tbody tr {
   display: table;   
   width: 100%;
    table-layout: fixed;
-}
-
-.descricao1 {
-  visibility: hidden;
-  width: 150px;
-  background-color: black;
-  color: #fff;
-  text-align: center;
-  border-radius: 5px;
-
-  
-  padding: 10px;
-  position: absolute;
-  /* bottom: 100%; */
-  z-index: 1;
-  top: -60px;
-  left: 50%;
-  transform: translateX(-50%);
-  opacity: 0;
-  transition: opacity 0.3s;
-}
-
-/* Quando o mouse passa sobre o produto, a descrição aparece */
-.produto:hover .descricao1 {
-  visibility: visible;
-  opacity: 1;
-}
-
-.produto {
-  position: relative;
-  cursor: pointer;
 }
 
 /* acaba o css da tela inicial */
