@@ -6,11 +6,18 @@ if (!isset($_SESSION['Email'])) {
     echo "Erro: Usuário não está logado.";
     exit;
 }
+
 $email = $_SESSION['Email'];
+
 $sql = "SELECT `id_pedido`, `data`, `nome_material`, `quantidade`, `usuario`, `status` 
         FROM `pedido`
+        WHERE `usuario` = ?
         ORDER BY `id_pedido` DESC";
-$result = mysqli_query($conexao, $sql);
+
+$result = $conexao->prepare($sql);
+$result->bind_param("s", $email);
+$result->execute();
+$result = $result->get_result();
 ?>
 
 <!DOCTYPE html>
