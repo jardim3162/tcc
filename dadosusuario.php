@@ -16,6 +16,9 @@ $usuario = mysqli_fetch_assoc($result);
     <title>Dados do Usuário</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.css" rel="stylesheet">
+   <!--script sweet alert-->
+   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.all.min.js"></script>
     <style>
         body {
             background-color: #f0f2f5;
@@ -56,6 +59,26 @@ $usuario = mysqli_fetch_assoc($result);
 <?php include "navusuario.php"; ?>
 
 <body>
+<div class="container-alterarusuario">
+         <!-- topend, topstart , topmiddle -->
+ <?php if (isset($_SESSION['alterado_sucess']) && $_SESSION['alterado_sucess'] == true) { ?>
+        <script>
+            Swal.fire({
+                position: "top-middle", 
+                icon: "success",
+                title: "usuário alterado com sucesso!",
+                showConfirmButton: false,
+                timer: 1500,
+                customClass: {
+                popup: 'small-popup' // Aplique uma classe CSS personalizada
+                }
+            });
+        </script>
+        <?php
+        // Apagar a variável de sessão para evitar que o alerta apareça novamente após a próxima atualização da página
+        unset($_SESSION['alterado_sucess']);
+        ?>
+    <?php } ?>
     <div class="user-container" style="margin-top: 20vh;">
         <i class="bi bi-person-bounding-box user-icon"></i>
 
@@ -64,19 +87,42 @@ $usuario = mysqli_fetch_assoc($result);
             <p><span>Nome:</span> <?php echo $usuario['nome']; ?></p>
             <p><span>Email:</span> <?php echo $usuario['email']; ?></p>
 
-            <p><span>Alterar Informações </span><a class="btn btn-sm btn-dark" href="form-alterarusuario.php?id_usuario=<?= $usuario['id_usuario']; ?>" title="Editar">
+            <a class="btn btn-sm btn-dark" href="form-alterarusuario.php?id_usuario=<?= $usuario['id_usuario']; ?>" title="Editar">
                     <i class="bi bi-pencil"></i>
-                </a></p>
-
-            <p><span>Excluir Conta</span>
-                <a class="btn btn-sm btn-danger" href="excluirusuario.php?id_usuario=<?= $usuario['id_usuario']; ?>"
-                    title="Excluir"
-                    onclick="return confirm('Tem certeza de que deseja excluir sua conta? Esta ação não pode ser desfeita.');">
+                Alterar Perfil</a></p>
+                <a
+                    class="btn btn-sm btn-danger excluir-usuario" 
+                    data-id="<?= $usuario['id_usuario']; ?>" 
+                    title="Excluir">
                     <i class="bi bi-trash"></i>
-                </a>
-            </p>
+                  Excluir Perfil</a>
         </div>
     </div>
+    <script>
+  document.querySelectorAll('.excluir-usuario').forEach(button => {
+    button.addEventListener('click', function (e) {
+      e.preventDefault();
+
+      const idusuario = this.getAttribute('data-id');
+
+      Swal.fire({
+        title: 'Tem certeza?',
+        text: "Esta ação não pode ser desfeita.",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Sim, excluir',
+        cancelButtonText: 'Cancelar'
+      }).then((result) => {
+        if (result.isConfirmed) {
+
+          window.location.href = `excluirusuario.php?id_usuario=${idusuario}`;
+        }
+      });
+    });
+  });
+</script>
 </body>
 
 </html>

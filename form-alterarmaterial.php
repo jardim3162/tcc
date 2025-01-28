@@ -99,7 +99,6 @@ if ($result) {
 </head>
 
 <body>
-    <div class="container">
         <form action="alterarmaterial.php" method="post">
             <h1>Alterar Material</h1>
             <input type="hidden" name="id_material" value="<?= $material['id_material'] ?>"><br>

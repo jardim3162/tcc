@@ -1,5 +1,6 @@
 <?php
 session_start();
+$_SESSION['pedido_sucess']= true;
 require_once "conexao.php";
 require_once 'recuperar-senha/PHPmailer/src/PHPMailer.php';
 $conexao = conectar();

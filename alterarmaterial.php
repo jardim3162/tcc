@@ -1,7 +1,8 @@
 <?php
+session_start();
 require_once "conexao.php";
 $conexao = conectar();
-
+$_SESSION['alterar_sucess'] = true;
 $id_material = $_POST['id_material'];
 $nome = $_POST['nome'];
 $estoque = $_POST['estoque'];

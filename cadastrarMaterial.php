@@ -2,7 +2,7 @@
 session_start();
 require_once "conexao.php";
 $conexao = conectar();
-
+$_SESSION['material_sucess'] = true;
 $nome = $_POST['nome'];
 $estoque = $_POST['estoque'];
 $descricao = $_POST['descricao'];

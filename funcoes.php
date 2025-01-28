@@ -54,9 +54,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $termoPesquisa = isset($_GET['pesquisa']) ? trim($_GET['pesquisa']) : '';
 
 if ($termoPesquisa) { 
-    $result = $conexao->prepare("SELECT * FROM material WHERE nome LIKE ? OR descricao LIKE ?");
+    $result = $conexao->prepare("SELECT * FROM material WHERE nome LIKE ?");
     $procurarTerm = "%$termoPesquisa%";
-    $result->bind_param("ss", $procurarTerm, $procurarTerm);
+    $result->bind_param("s", $procurarTerm);
 } else {
     $result = $conexao->prepare("SELECT * FROM material");
 }

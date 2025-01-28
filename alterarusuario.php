@@ -2,7 +2,7 @@
 require_once "conexao.php";
 session_start();
 $conexao = conectar();
-
+$_SESSION['alterado_sucess'] = true;
 $id_usuario = $_POST['id_usuario'];
 $nome = $_POST['nome'];
 $email = $_POST['email'];
