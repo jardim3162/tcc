@@ -51,7 +51,7 @@ require_once "funcoes.php";
     <?php unset($_SESSION['material_sucess']); ?>
   <?php } ?>
   <div class="container">  
-    <div class="d-flex justify-content-between align-items-center mb-4" style="margin-top: 15%;">
+    <div class="d-flex justify-content-between align-items-center mb-4" style="margin-top: 8%;">
       <h2>Estoque de Materiais</h2>
       <form method="GET" class="form-inline">
         <div class="input-group">

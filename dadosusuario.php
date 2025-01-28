@@ -57,7 +57,6 @@ $usuario = mysqli_fetch_assoc($result);
     </style>
 </head>
 <?php include "navusuario.php"; ?>
-
 <body>
 <div class="container-alterarusuario">
          <!-- topend, topstart , topmiddle -->
