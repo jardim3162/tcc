@@ -1,10 +1,13 @@
 <?php
+
+/*
 //Telainicialusuario.php
 $conexao = conectar();
 if (!isset($_SESSION['Email'])) {
   header('Location: Login.php');
   exit();
 }
+
 $sql = "SELECT * FROM material";
 $result = mysqli_query(mysql: $conexao, query: $sql);
 if ($result) {
@@ -14,6 +17,8 @@ if ($result) {
 }
 
 //fim
+*/
+
 
 //Telainicial.php
 $conexao = conectar();
@@ -32,21 +37,23 @@ if ($result) {
 //fim
 
 //funcionamento do form
-$conexao = conectar();
+//$conexao = conectar();
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  foreach ($_POST['pedidos'] as $pedido) {
-      $id_usuario = $_SESSION['id_usuario'];
-      $nome_material = $pedido['nome'];
-      $quantidade = (int) $pedido['quantidade'];
+  if (isset($_POST['pedidos'])) { 
+    foreach ($_POST['pedidos'] as $pedido) {
+        $id_usuario = $_SESSION['id_usuario'];
+        $nome_material = $pedido['nome'];
+        $quantidade = (int) $pedido['quantidade'];
 
-      if ($quantidade > 0 && $id_material > 0) {
-          $sql = "INSERT INTO pedido (quantidade, id_usuario, nome_material) 
-                  VALUES ('$quantidade', '$id_usuario', '$nome_material')";
-          $result = mysqli_query($conexao, $sql);
-          if (!$result) {
-              echo "Erro ao salvar pedido: " . mysqli_error($conexao);
-          }
-      }
+        if ($quantidade > 0 && $id_material > 0) {
+            $sql = "INSERT INTO pedido (quantidade, id_usuario, nome_material) 
+                    VALUES ('$quantidade', '$id_usuario', '$nome_material')";
+            $result = mysqli_query($conexao, $sql);
+            if (!$result) {
+                echo "Erro ao salvar pedido: " . mysqli_error($conexao);
+            }
+        }
+    }
   }
 }
 

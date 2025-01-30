@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Tempo de geração: 21-Jan-2025 às 18:21
+-- Tempo de geração: 30-Jan-2025 às 21:21
 -- Versão do servidor: 8.0.31
 -- versão do PHP: 8.0.26
 
@@ -30,11 +30,11 @@ SET time_zone = "+00:00";
 DROP TABLE IF EXISTS `alternativo`;
 CREATE TABLE IF NOT EXISTS `alternativo` (
   `id_alternativo` int NOT NULL AUTO_INCREMENT,
-  `nome_material` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `nome_material` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `descricao` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `motivo` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `motivo` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`id_alternativo`)
-) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Extraindo dados da tabela `alternativo`
@@ -56,9 +56,9 @@ INSERT INTO `alternativo` (`id_alternativo`, `nome_material`, `descricao`, `moti
 DROP TABLE IF EXISTS `material`;
 CREATE TABLE IF NOT EXISTS `material` (
   `id_material` int NOT NULL AUTO_INCREMENT,
-  `nome` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `nome` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `estoque` int NOT NULL,
-  `descricao` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `descricao` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`id_material`)
 ) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -91,29 +91,25 @@ DROP TABLE IF EXISTS `pedido`;
 CREATE TABLE IF NOT EXISTS `pedido` (
   `id_pedido` int NOT NULL AUTO_INCREMENT,
   `data` datetime NOT NULL,
-  `usuario` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `nome_material` text COLLATE utf8mb4_general_ci NOT NULL,
-  `quantidade` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `status` varchar(50) COLLATE utf8mb4_general_ci DEFAULT 'Pendente',
-  PRIMARY KEY (`id_pedido`)
-) ENGINE=MyISAM AUTO_INCREMENT=76 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `usuario_id` int NOT NULL,
+  `quantidade` int NOT NULL,
+  `status` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT 'Pendente',
+  `id_material` int NOT NULL,
+  PRIMARY KEY (`id_pedido`),
+  KEY `id_material_idx` (`id_material`) USING BTREE,
+  KEY `id_usuario_idx` (`id_pedido`),
+  KEY `id_usuario_fk` (`usuario_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=84 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Extraindo dados da tabela `pedido`
 --
 
-INSERT INTO `pedido` (`id_pedido`, `data`, `usuario`, `nome_material`, `quantidade`, `status`) VALUES
-(64, '0000-00-00 00:00:00', 'teste2@gmail.com', 'sabão, detergente, papel', '2, 6, 8', 'Pendente'),
-(65, '0000-00-00 00:00:00', 'teste2@gmail.com', 'papel, caneta, bombril, sabão', '3, 5, 6, 2', 'Pago'),
-(70, '0000-00-00 00:00:00', 'usuario@gmail.com', 'lapis, papeis, canetas', '1, 2, 3', 'Pendente'),
-(67, '0000-00-00 00:00:00', 'teste2@gmail.com', 'teste, teste, teste, teste', '1, 2, 3, 4, 5', 'Pago'),
-(68, '0000-00-00 00:00:00', 'usuario@gmail.com', 'teste1, teste 2, teste3, teste4', '1, 2, 3, 4, 5, 6', 'Pago'),
-(69, '0000-00-00 00:00:00', 'usuario@gmail.com', 'sabão, papel, detergente', '2, 5, 6, 7', 'Pago'),
-(71, '2025-01-06 13:05:03', 'teste2@gmail.com', 'teste. teste. teste', '2, 4, 6', 'Pendente'),
-(72, '2025-01-10 13:17:45', 'usuario@gmail.com', 'sabão barras, detergente, sabão pó, papel sulfite, papel toalha, TESTE', '2, 2, 2, 2, 2, 2', 'Pendente'),
-(73, '2025-01-11 12:21:27', 'usuario@gmail.com', 'sabão, detergente, papel pó', '2, 2, 2', 'Pago'),
-(74, '2025-01-13 12:53:41', 'usuario@gmail.com', 'sabão barras, detergente, papel sulfite', '2, 2, 2', 'Pago'),
-(75, '2025-01-13 17:09:22', 'adm@gmail.com', 'sabão, detergente, papel sulfite', '2, 2, 2', 'Pago');
+INSERT INTO `pedido` (`id_pedido`, `data`, `usuario_id`, `quantidade`, `status`, `id_material`) VALUES
+(80, '2025-01-30 18:20:01', 13, 2, 'Pendente', 3),
+(81, '2025-01-30 18:20:01', 13, 4, 'Pendente', 9),
+(82, '2025-01-30 18:20:01', 13, 6, 'Pendente', 11),
+(83, '2025-01-30 18:20:01', 13, 8, 'Pendente', 15);
 
 -- --------------------------------------------------------
 
@@ -123,8 +119,8 @@ INSERT INTO `pedido` (`id_pedido`, `data`, `usuario`, `nome_material`, `quantida
 
 DROP TABLE IF EXISTS `recuperar-senha`;
 CREATE TABLE IF NOT EXISTS `recuperar-senha` (
-  `email` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `token` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `token` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `data_criacao` datetime NOT NULL,
   `usado` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -149,9 +145,9 @@ INSERT INTO `recuperar-senha` (`email`, `token`, `data_criacao`, `usado`) VALUES
 DROP TABLE IF EXISTS `usuario`;
 CREATE TABLE IF NOT EXISTS `usuario` (
   `id_usuario` int NOT NULL AUTO_INCREMENT,
-  `nome` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `email` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `senha` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `nome` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `senha` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `tipo_usuario` tinyint(1) NOT NULL,
   PRIMARY KEY (`id_usuario`),
   UNIQUE KEY `email` (`email`)
@@ -165,6 +161,17 @@ INSERT INTO `usuario` (`id_usuario`, `nome`, `email`, `senha`, `tipo_usuario`) V
 (13, 'usuario', 'usuario@gmail.com', '$2y$10$ndPxw5rq.cojT9VBp3ox7.GJZ83kN6/deWKsftN121NSlSFySqlHW', 0),
 (15, 'adm', 'adm@gmail.com', '$2y$10$4xA3bENgD83zrjdBBShFbOGZ78Fd35sSKL298wERIRm3VZ8fNHw0W', 1),
 (17, 'sdf', 'joao.2020316204@aluno.iffar.edu.br', '$2y$10$U5SS3SZWieFhGpdOiSzrAuRY/wK9lhQaPGTu7WZZhq5knSX4GfyBu', 0);
+
+--
+-- Restrições para despejos de tabelas
+--
+
+--
+-- Limitadores para a tabela `pedido`
+--
+ALTER TABLE `pedido`
+  ADD CONSTRAINT `id_material_fk2` FOREIGN KEY (`id_material`) REFERENCES `material` (`id_material`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  ADD CONSTRAINT `id_usuario_fk` FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id_usuario`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

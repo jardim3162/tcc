@@ -20,6 +20,7 @@ if (isset($_POST['submit']) && !empty($_POST['Email']) && !empty($_POST['Senha']
 
         if ($usuario['tipo_usuario'] == 1) {
             $_SESSION['Email'] = $email;
+            $_SESSION['id_usuario'] = $usuario['id_usuario'];
             header('Location: Telainicial.php');
             exit();
         } elseif ($usuario['tipo_usuario'] == 0) {
