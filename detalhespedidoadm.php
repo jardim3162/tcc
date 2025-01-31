@@ -6,37 +6,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['marcar_pago'])) {
         $pedido_id = intval($_POST['pedido_id']);
 
+        // Atualizar status do pedido
         $sql_update_pedido = "UPDATE pedido SET status = 'Pago' WHERE id_pedido = $pedido_id";
         mysqli_query($conexao, $sql_update_pedido);
 
-        $sql_select_pedido = "SELECT nome_material, quantidade FROM pedido WHERE id_pedido = $pedido_id";
+        // Selecionar materiais e quantidades do pedido
+        $sql_select_pedido = "SELECT id_material, quantidade FROM pedido WHERE id_pedido = $pedido_id";
         $result_pedido = mysqli_query($conexao, $sql_select_pedido);
 
         if ($result_pedido && mysqli_num_rows($result_pedido) > 0) {
-            $pedido = mysqli_fetch_assoc($result_pedido);
+            while ($pedido = mysqli_fetch_assoc($result_pedido)) {
+                $id_material = intval($pedido['id_material']);
+                $quantidade = intval($pedido['quantidade']);
 
-            $nome_material = trim($pedido['nome_material']);
-            $quantidade = trim($pedido['quantidade']);
-
-            $materiais = explode(',', $nome_material);
-            $quantidades = explode(',', $quantidade);
-
-            if (count($materiais) === count($quantidades)) {
-                foreach ($materiais as $index => $material) {
-                    $material = trim($material);
-                    $quantidade_atual = intval(trim($quantidades[$index]));
-
-                    if (!empty($material) && $quantidade_atual > 0) {
-                        $sql_update_material = "
-                            UPDATE material 
-                            SET estoque = estoque - $quantidade_atual 
-                            WHERE nome = '$material'
-                        ";
-                        mysqli_query($conexao, $sql_update_material);
-                    }
+                if ($quantidade > 0) {
+                    // Atualizar o estoque do material
+                    $sql_update_material = "
+                        UPDATE material 
+                        SET estoque = estoque - $quantidade 
+                        WHERE id_material = $id_material
+                    ";
+                    mysqli_query($conexao, $sql_update_material);
                 }
-            } else {
-                error_log("Inconsistência entre materiais e quantidades no pedido ID: $pedido_id");
             }
         }
     } elseif (isset($_POST['marcar_pendente'])) {
@@ -46,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-$sql = "SELECT id_pedido, data, quantidade, status 
+$sql = "SELECT id_pedido, data, quantidade, status, id_material 
         FROM pedido
         ORDER BY id_pedido DESC";
 $result = mysqli_query($conexao, $sql);
@@ -66,7 +57,7 @@ $result = mysqli_query($conexao, $sql);
             font-family: Arial, sans-serif;
             background-color: #f5f5f5;
             margin: 0;
-            }
+        }
         
         h2 {
             color: #333;
@@ -107,10 +98,16 @@ $result = mysqli_query($conexao, $sql);
     <?php
     if (mysqli_num_rows($result) > 0) {
         while ($pedido = mysqli_fetch_assoc($result)) {
+            // Recuperar o nome do material
+            $id_material = intval($pedido['id_material']);
+            $sql_material = "SELECT nome FROM material WHERE id_material = $id_material";
+            $result_material = mysqli_query($conexao, $sql_material);
+            $material = mysqli_fetch_assoc($result_material);
+
             echo "<div class='pedido'>";
             echo "<p><strong>Pedido ID:</strong> {$pedido['id_pedido']}</p>";
             echo "<p><strong>Data:</strong> {$pedido['data']}</p>";
-            echo "<p><strong>Material:</strong> {$pedido['']}</p>";
+            echo "<p><strong>Material:</strong> {$material['nome']}</p>";
             echo "<p><strong>Quantidade:</strong> {$pedido['quantidade']}</p>";
             echo "<p><strong>Status:</strong> {$pedido['status']}</p>";
 
