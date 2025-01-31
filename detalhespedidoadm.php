@@ -46,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-$sql = "SELECT id_pedido, data, nome_material, quantidade, usuario, status 
+$sql = "SELECT id_pedido, data, quantidade, status 
         FROM pedido
         ORDER BY id_pedido DESC";
 $result = mysqli_query($conexao, $sql);
@@ -110,7 +110,7 @@ $result = mysqli_query($conexao, $sql);
             echo "<div class='pedido'>";
             echo "<p><strong>Pedido ID:</strong> {$pedido['id_pedido']}</p>";
             echo "<p><strong>Data:</strong> {$pedido['data']}</p>";
-            echo "<p><strong>Material:</strong> {$pedido['nome_material']}</p>";
+            echo "<p><strong>Material:</strong> {$pedido['']}</p>";
             echo "<p><strong>Quantidade:</strong> {$pedido['quantidade']}</p>";
             echo "<p><strong>Status:</strong> {$pedido['status']}</p>";
 

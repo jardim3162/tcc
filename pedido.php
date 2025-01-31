@@ -7,21 +7,7 @@ $conexao = conectar();
 
 use PHPMailer\PHPMailer\PHPMailer;
 
-
-
-
-
 $pedidos = $_POST['pedidos'];
-
-
-
-
-
-// $nome_material = $_POST['nome_material'];
-// $quantidade = $_POST['quantidade'];
-// $email = $_POST['email'];
-
-// var_dump($email, $nome_material, $quantidade);
 
 date_default_timezone_set('America/Sao_Paulo');
 $data = new DateTime('now');
@@ -53,7 +39,7 @@ foreach($pedidos as $pedido){
         }
 
         if ($r) { //gravou no banco
-            header("Location: Telainicialusuario2.php");
+            header("Location: Telainicialusuario.php");
         } else { //deu erro ao gravar
             header("Location: dadosusuario.php");
         }
