@@ -25,22 +25,27 @@ if ($result_usuario->num_rows > 0) {
     echo "Erro: Usuário não encontrado.";
     exit;
 }
+$sql_pedido = "SELECT * FROM pedido ORDER BY grupo_pedido";
+$resultado_pedido = executarSQL($conexao, $sql_pedido);
 
-// Agora, utilizando o $usuario_id na consulta de pedidos
-$sql = "SELECT p.data, 
-                GROUP_CONCAT(m.nome SEPARATOR ', ') AS materiais,
-                SUM(p.quantidade) AS total_quantidade, 
-                p.status
-         FROM pedido p
-         JOIN material m ON p.id_material = m.id_material
-         WHERE p.usuario_id = ?
-         GROUP BY p.data, p.status
-         ORDER BY p.data DESC";
+// Criando um array para armazenar os grupos
+$grupos = [];
 
-$result = $conexao->prepare($sql);
-$result->bind_param("i", $usuario_id);
-$result->execute();
-$result = $result->get_result();
+// Processando os resultados
+while ($row = $resultado_pedido->fetch_assoc()) {
+    $grupos[$row['grupo_pedido']][] = $row;
+}
+
+// Exibindo os grupos
+foreach ($grupos as $grupo_id => $pedidos) {
+    echo "<h3>Grupo Pedido: $grupo_id</h3>";
+    echo "<ul>";
+    foreach ($pedidos as $pedido) {
+        echo "<li>ID Pedido: {$pedido['id_pedido']} | Quantidade: {$pedido['quantidade']} | Material: {$pedido['id_material']}</li>";
+    }
+    echo "</ul>";
+}
+die;
 ?>
 
 <!DOCTYPE html>

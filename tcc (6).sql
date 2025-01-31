@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Tempo de geração: 30-Jan-2025 às 21:21
+-- Tempo de geração: 31-Jan-2025 às 17:09
 -- Versão do servidor: 8.0.31
 -- versão do PHP: 8.0.26
 
@@ -90,6 +90,7 @@ INSERT INTO `material` (`id_material`, `nome`, `estoque`, `descricao`) VALUES
 DROP TABLE IF EXISTS `pedido`;
 CREATE TABLE IF NOT EXISTS `pedido` (
   `id_pedido` int NOT NULL AUTO_INCREMENT,
+  `grupo_pedido` int NOT NULL,
   `data` datetime NOT NULL,
   `usuario_id` int NOT NULL,
   `quantidade` int NOT NULL,
@@ -99,17 +100,18 @@ CREATE TABLE IF NOT EXISTS `pedido` (
   KEY `id_material_idx` (`id_material`) USING BTREE,
   KEY `id_usuario_idx` (`id_pedido`),
   KEY `id_usuario_fk` (`usuario_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=84 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=94 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Extraindo dados da tabela `pedido`
 --
 
-INSERT INTO `pedido` (`id_pedido`, `data`, `usuario_id`, `quantidade`, `status`, `id_material`) VALUES
-(80, '2025-01-30 18:20:01', 13, 2, 'Pendente', 3),
-(81, '2025-01-30 18:20:01', 13, 4, 'Pendente', 9),
-(82, '2025-01-30 18:20:01', 13, 6, 'Pendente', 11),
-(83, '2025-01-30 18:20:01', 13, 8, 'Pendente', 15);
+INSERT INTO `pedido` (`id_pedido`, `grupo_pedido`, `data`, `usuario_id`, `quantidade`, `status`, `id_material`) VALUES
+(89, 1, '2025-01-31 12:55:48', 13, 3, 'Pendente', 3),
+(90, 1, '2025-01-31 12:55:48', 13, 3, 'Pendente', 15),
+(91, 1, '2025-01-31 12:55:48', 13, 3, 'Pendente', 16),
+(92, 2, '2025-01-31 12:56:00', 13, 4, 'Pendente', 3),
+(93, 2, '2025-01-31 12:56:00', 13, 3, 'Pendente', 11);
 
 -- --------------------------------------------------------
 

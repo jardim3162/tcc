@@ -15,13 +15,17 @@ $agora = $data->format('Y-m-d H:i:s');
 
 $sql = "";
 $cnt = 0;
-
+$sql_grupo = "SELECT grupo_pedido FROM pedido ORDER BY grupo_pedido DESC LIMIT 1";
+$result_grupo = executarSQL($conexao, $sql_grupo);
+$grupo = $result_grupo->fetch_assoc();
+    $grupo_pedido = $grupo['grupo_pedido'];
+    $pedido_grupo = $grupo_pedido + 1;
 // Exibindo o array resultante
 foreach($pedidos as $pedido){
   
     if ($pedido['quantidade'] > 0) {
         $cnt++;
-        $sql  =  $sql . "INSERT INTO pedido (id_material,  quantidade,   status  , usuario_id    ,   data) VALUES (" . $pedido['id_material']  . ",  " .   $pedido['quantidade']  .  ",  "   .  " 'Pendente'  " . ", "  .   $_SESSION['id_usuario'] .  ",  '$agora') ; ";
+        $sql  =  $sql . "INSERT INTO pedido (id_material,  quantidade,   status  , usuario_id    ,   data, grupo_pedido) VALUES (" . $pedido['id_material']  . ",  " .   $pedido['quantidade']  .  ",  "   .  " 'Pendente'  " . ", "  .   $_SESSION['id_usuario'] .  ",  '$agora', $pedido_grupo) ; ";
     }
  }
 
