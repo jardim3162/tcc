@@ -1,4 +1,4 @@
-<?session_destroy();?>
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -15,6 +15,17 @@
         </div>
         <div class="right-side">
             <h1>Login</h1>
+            
+            <!-- Exibe a mensagem de erro, se existir -->
+            <?php if (isset($_SESSION['msg'])): ?>
+                <div class="error-message">
+                    <?php
+                    echo $_SESSION['msg'];
+                    unset($_SESSION['msg']); // Apaga a mensagem após exibição
+                    ?>
+                </div>
+            <?php endif; ?>
+            
             <form action="testLogin.php" method="post">
                 <input type="email" name="Email" placeholder="Email" required><br>
                 <input type="password" name="Senha" placeholder="Senha" required><br>

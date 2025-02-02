@@ -14,6 +14,7 @@ require_once "funcoes.php";
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
   <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.all.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <?php include "navadm.php" ?>
 <body id="telainicial">
@@ -33,89 +34,81 @@ require_once "funcoes.php";
     </script>
     <?php unset($_SESSION['alterar_sucess']); ?>
   <?php } ?>
-    <br>
-    <div class="container-material">
-  <?php if (isset($_SESSION['material_sucess']) && $_SESSION['material_sucess'] == true) { ?>
-    <script>
-      Swal.fire({
-        position: "top-middle",
-        icon: "success",
-        title: "Material cadastrado com sucesso!",
-        showConfirmButton: false,
-        timer: 1500,
-        customClass: {
-          popup: 'small-popup'
-        }
-      });
-    </script>
-    <?php unset($_SESSION['material_sucess']); ?>
-  <?php } ?>
-  <div class="container">  
-    <div class="d-flex justify-content-between align-items-center mb-4" style="margin-top: 8%;">
-      <h2>Estoque de Materiais</h2>
-      <form method="GET" class="form-inline">
-        <div class="input-group">
-          <input type="text" name="pesquisa" class="form-control" placeholder="Pesquisar material" value="<?=$termoPesquisa; ?>">
-          <div class="input-group-append">
-            <button type="submit" class="btn btn-primary">Pesquisar</button>
-          </div>
-        </div>
-      </form>
-    </div>
-    <div class="table-responsive">
-      <table class="table table-bordered table-hover text-center">
-        <thead class="thead-dark">
-          <tr>
-            <th>Produto</th>
-            <th>Estoque</th>
-            <th>Opções</th>
-          </tr>
-        </thead>
-        <tbody>
-          <?php if (empty($materiais)) : ?>
+  <br>
+  <div class="container-material">
+    <?php if (isset($_SESSION['material_sucess']) && $_SESSION['material_sucess'] == true) { ?>
+      <script>
+        Swal.fire({
+          position: "top-middle",
+          icon: "success",
+          title: "Material cadastrado com sucesso!",
+          showConfirmButton: false,
+          timer: 1500,
+          customClass: {
+            popup: 'small-popup'
+          }
+        });
+      </script>
+      <?php unset($_SESSION['material_sucess']); ?>
+    <?php } ?>
+    <div class="container">  
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Estoque de Materiais</h2>
+        <input type="text" id="pesquisaMateriais" class="form-control w-25" placeholder="Pesquisar materiais...">
+      </div>
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover text-center">
+          <thead class="thead-dark">
             <tr>
-              <td colspan="3" class="text-center">Nenhum material encontrado.</td>
+              <th>Produto</th>
+              <th>Estoque</th>
+              <th>Opções</th>
             </tr>
-          <?php else : ?>
-            <?php foreach ($materiais as $material) : ?>
+          </thead>
+          <tbody>
+            <?php if (empty($materiais)) : ?>
               <tr>
-                <td>
-                  <strong><?= ($material['nome']); ?></strong><br>
-                  <small class="text-muted">Descrição: <?= ($material['descricao']); ?></small>
-                </td>
-                <td><?= ($material['estoque']); ?></td>
-                <td>
-                  <a 
-                    class="btn btn-sm btn-dark" 
-                    href="form-alterarmaterial.php?id_material=<?= $material['id_material']; ?>" 
-                    title="Editar">
-                    <i class="bi bi-pencil"></i>
-                  </a>
-                  <a 
-                    class="btn btn-sm btn-danger excluir-material" 
-                    data-id="<?= $material['id_material']; ?>" 
-                    title="Excluir">
-                    <i class="bi bi-trash"></i>
-                  </a>
-                </td>
+                <td colspan="3" class="text-center">Nenhum material encontrado.</td>
               </tr>
-            <?php endforeach; ?>
-          <?php endif; ?>
-        </tbody>
-      </table>
-    </div>
-    <div class="text-right">
-      <a href="form-material.php" class="btn btn-primary">Cadastrar Material</a>
+            <?php else : ?>
+              <?php foreach ($materiais as $material) : ?>
+                <tr class="linha-material">
+                  <td>
+                    <strong><?= htmlspecialchars($material['nome']); ?></strong><br>
+                    <small class="text-muted">Descrição: <?= htmlspecialchars($material['descricao']); ?></small>
+                  </td>
+                  <td><?= htmlspecialchars($material['estoque']); ?></td>
+                  <td>
+                    <a 
+                      class="btn btn-sm btn-dark" 
+                      href="form-alterarmaterial.php?id_material=<?= $material['id_material']; ?>" 
+                      title="Editar">
+                      <i class="bi bi-pencil"></i>
+                    </a>
+                    <a 
+                      class="btn btn-sm btn-danger excluir-material" 
+                      data-id="<?= $material['id_material']; ?>" 
+                      title="Excluir">
+                      <i class="bi bi-trash"></i>
+                    </a>
+                  </td>
+                </tr>
+              <?php endforeach; ?>
+            <?php endif; ?>
+          </tbody>
+        </table>
+      </div>
+      <div class="text-right">
+        <a href="form-material.php" class="btn btn-primary">Cadastrar Material</a>
+      </div>
     </div>
   </div>
-</div>
 </div>
 
 <script>
   document.querySelectorAll('.excluir-material').forEach(button => {
     button.addEventListener('click', function (e) {
       e.preventDefault();
-
       const idMaterial = this.getAttribute('data-id');
 
       Swal.fire({
@@ -129,9 +122,18 @@ require_once "funcoes.php";
         cancelButtonText: 'Cancelar'
       }).then((result) => {
         if (result.isConfirmed) {
-
           window.location.href = `excluirmaterial.php?id_material=${idMaterial}`;
         }
+      });
+    });
+  });
+
+  $(document).ready(function() {
+    $('#pesquisaMateriais').on('input', function() {
+      var pesquisa = $(this).val().toLowerCase();
+      $('.linha-material').each(function() {
+        var nomeMaterial = $(this).find('strong').text().toLowerCase();
+        $(this).toggle(nomeMaterial.includes(pesquisa));
       });
     });
   });

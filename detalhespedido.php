@@ -10,14 +10,12 @@ if (!isset($_SESSION['Email'])) {
 
 $email = $_SESSION['Email'];
 
-// Buscar o id_usuario com base no email
 $sql_usuario = "SELECT id_usuario FROM usuario WHERE email = ?";
 $result_usuario = $conexao->prepare($sql_usuario);
 $result_usuario->bind_param("s", $email);
 $result_usuario->execute();
 $result_usuario = $result_usuario->get_result();
 
-// Verificando se o usuário foi encontrado
 if ($result_usuario->num_rows > 0) {
     $usuario = $result_usuario->fetch_assoc();
     $usuario_id = $usuario['id_usuario'];
@@ -25,29 +23,17 @@ if ($result_usuario->num_rows > 0) {
     echo "Erro: Usuário não encontrado.";
     exit;
 }
-$sql_pedido = "SELECT * FROM pedido ORDER BY grupo_pedido";
-$resultado_pedido = executarSQL($conexao, $sql_pedido);
 
-// Criando um array para armazenar os grupos
-$grupos = [];
-
-// Processando os resultados
-while ($row = $resultado_pedido->fetch_assoc()) {
-    $grupos[$row['grupo_pedido']][] = $row;
-}
-
-// Exibindo os grupos
-foreach ($grupos as $grupo_id => $pedidos) {
-    echo "<h3>Grupo Pedido: $grupo_id</h3>";
-    echo "<ul>";
-    foreach ($pedidos as $pedido) {
-        echo "<li>ID Pedido: {$pedido['id_pedido']} | Quantidade: {$pedido['quantidade']} | Material: {$pedido['id_material']}</li>";
-    }
-    echo "</ul>";
-}
-die;
+$sql_pedido = "SELECT p.*, m.nome AS nome_material 
+               FROM pedido p 
+               JOIN material m ON p.id_material = m.id_material 
+               WHERE p.usuario_id = ? 
+               ORDER BY p.grupo_pedido DESC, p.data DESC";
+$resultado_pedido = $conexao->prepare($sql_pedido);
+$resultado_pedido->bind_param("i", $usuario_id);
+$resultado_pedido->execute();
+$resultado_pedido = $resultado_pedido->get_result();
 ?>
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -96,14 +82,32 @@ die;
 <?php include "navusuario.php"; ?><br><br>
 <body><br>
     <h2>Seus Pedidos</h2>
+
     <?php
-    if ($result->num_rows > 0) {
-        while ($pedido = $result->fetch_assoc()) {
+    if ($resultado_pedido->num_rows > 0) {
+        $pedidos = [];
+        while ($pedido = $resultado_pedido->fetch_assoc()) {
+            $pedidos[$pedido['grupo_pedido']][] = $pedido;
+        }
+
+
+        foreach ($pedidos as $grupo_id => $pedidos_grupo) {
+            $data_pedido = date("d/m/Y H:i", strtotime($pedidos_grupo[0]['data']));
+            $status_pedido = $pedidos_grupo[0]['status'];
+
+            $materiais = [];
+            $quantidades = [];
+            foreach ($pedidos_grupo as $pedido) {
+                $materiais[] = $pedido['nome_material'];
+                $quantidades[] = $pedido['quantidade'];
+            }
+
             echo "<div class='pedido'>";
-            echo "<p><strong>Data:</strong> " . date("d/m/Y H:i", strtotime($pedido['data'])) . "</p>";
-            echo "<p><strong>Materiais:</strong> {$pedido['materiais']}</p>";
-            echo "<p><strong>Total Quantidade:</strong> {$pedido['total_quantidade']}</p>";
-            echo "<p><strong>Status:</strong> {$pedido['status']}</p>";
+            echo "<h3>Pedido: $grupo_id</h3>";
+            echo "<p><strong>Data:</strong> $data_pedido</p>";
+            echo "<p><strong>Materiais:</strong> " . implode(", ", $materiais) . "</p>";
+            echo "<p><strong>Quantidade:</strong> " . implode(", ", $quantidades) . "</p>";
+            echo "<p><strong>Status:</strong> $status_pedido</p>";
             echo "<hr>";
             echo "</div>";
         }

@@ -2,6 +2,7 @@
 session_start();
 require_once "conexao.php";
 ?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -11,7 +12,6 @@ require_once "conexao.php";
     <title>Cadastro de Usuário</title>
     <link rel="stylesheet" href="css/styles.css">
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.css" rel="stylesheet">
-    <!--script sweet alert-->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.all.min.js"></script>
 </head>
 
@@ -27,20 +27,30 @@ require_once "conexao.php";
                     showConfirmButton: false,
                     timer: 1500,
                     customClass: {
-                        popup: 'small-popup' // Aplique uma classe CSS personalizada
+                        popup: 'small-popup'
                     }
                 });
             </script>
             <?php
-            // Apagar a variável de sessão para evitar que o alerta apareça novamente após a próxima atualização da página
             unset($_SESSION['cadastro_sucess']);
             ?>
         <?php } ?>
+
         <h1>Cadastre seu Usuário</h1>
+
+        <!-- Exibir a mensagem de erro se existir -->
+        <?php if (isset($_SESSION['msg'])): ?>
+            <div class="error-message">
+                <?php echo $_SESSION['msg']; ?>
+            </div>
+            <?php unset($_SESSION['msg']); ?>
+        <?php endif; ?>
+
         <form method="POST" action="cadastrar.php">
             <input type="text" name="nome" placeholder="Nome" required><br>
             <input type="email" name="email" placeholder="Email" required><br>
             <input type="password" name="senha" placeholder="Senha" required><br>
+            <input type="password" name="confirmar_senha" placeholder="Confirmar Senha" required><br>
             <input type="submit" value="Enviar">
         </form>
         <a class="back-link" href="Login.php">Voltar</a>

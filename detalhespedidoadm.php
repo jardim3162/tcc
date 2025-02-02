@@ -2,143 +2,121 @@
 require_once "conexao.php";
 $conexao = conectar();
 
+$feedback = "";
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $pedido_id = intval($_POST['pedido_id']);
+    
     if (isset($_POST['marcar_pago'])) {
-        $pedido_id = intval($_POST['pedido_id']);
 
-        // Atualizar status do pedido
-        $sql_update_pedido = "UPDATE pedido SET status = 'Pago' WHERE id_pedido = $pedido_id";
-        mysqli_query($conexao, $sql_update_pedido);
+        $sql_update_pedido = "UPDATE pedido SET status = 'Pago' WHERE grupo_pedido = ?";
+        $stmt = $conexao->prepare($sql_update_pedido);
+        $stmt->bind_param("i", $pedido_id);
+        $stmt->execute();
 
-        // Selecionar materiais e quantidades do pedido
-        $sql_select_pedido = "SELECT id_material, quantidade FROM pedido WHERE id_pedido = $pedido_id";
-        $result_pedido = mysqli_query($conexao, $sql_select_pedido);
+        $sql_select_pedido = "SELECT id_material, quantidade FROM pedido WHERE grupo_pedido = ?";
+        $stmt = $conexao->prepare($sql_select_pedido);
+        $stmt->bind_param("i", $pedido_id);
+        $stmt->execute();
+        $result_pedido = $stmt->get_result();
 
-        if ($result_pedido && mysqli_num_rows($result_pedido) > 0) {
-            while ($pedido = mysqli_fetch_assoc($result_pedido)) {
-                $id_material = intval($pedido['id_material']);
-                $quantidade = intval($pedido['quantidade']);
-
-                if ($quantidade > 0) {
-                    // Atualizar o estoque do material
-                    $sql_update_material = "
-                        UPDATE material 
-                        SET estoque = estoque - $quantidade 
-                        WHERE id_material = $id_material
-                    ";
-                    mysqli_query($conexao, $sql_update_material);
-                }
+        while ($pedido = $result_pedido->fetch_assoc()) {
+            $id_material = intval($pedido['id_material']);
+            $quantidade = intval($pedido['quantidade']);
+            if ($quantidade > 0) {
+                $sql_update_material = "UPDATE material SET estoque = estoque - ? WHERE id_material = ?";
+                $stmt = $conexao->prepare($sql_update_material);
+                $stmt->bind_param("ii", $quantidade, $id_material);
+                $stmt->execute();
             }
         }
+
+        $feedback = "Pedido marcado como Pago com sucesso!";
     } elseif (isset($_POST['marcar_pendente'])) {
-        $pedido_id = intval($_POST['pedido_id']);
-        $sql_update_pedido = "UPDATE pedido SET status = 'Pendente' WHERE id_pedido = $pedido_id";
-        mysqli_query($conexao, $sql_update_pedido);
+        $sql_update_pedido = "UPDATE pedido SET status = 'Pendente' WHERE grupo_pedido = ?";
+        $stmt = $conexao->prepare($sql_update_pedido);
+        $stmt->bind_param("i", $pedido_id);
+        $stmt->execute();
+
+        $feedback = "Pedido marcado como Pendente com sucesso!";
     }
 }
 
-$sql = "SELECT id_pedido, data, quantidade, status, id_material 
-        FROM pedido
-        ORDER BY id_pedido DESC";
+$sql = "SELECT p.grupo_pedido, p.data, p.status, 
+               GROUP_CONCAT(m.nome SEPARATOR ', ') AS materiais, 
+               GROUP_CONCAT(p.quantidade SEPARATOR ', ') AS quantidades,
+               u.nome AS nome_usuario
+        FROM pedido p
+        JOIN material m ON p.id_material = m.id_material
+        JOIN usuario u ON p.usuario_id = u.id_usuario
+        GROUP BY p.grupo_pedido, p.data, p.status
+        ORDER BY p.grupo_pedido DESC";
 $result = mysqli_query($conexao, $sql);
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/styles.css?nocache=<?= rand() ?>">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css">
     <title>Todos os Pedidos</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f5f5f5;
-            margin: 0;
-        }
-        
-        h2 {
-            color: #333;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .pedido {
-            background-color: #fff;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            padding: 15px;
-            margin: 10px auto;
-            max-width: 600px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-
-        .pedido p {
-            margin: 5px 0;
-        }
-
-        .pedido form {
-            margin-top: 10px;
-        }
-
-        .no-pedidos {
-            color: #777;
-            font-style: italic;
-            text-align: center;
-            margin-top: 20px;
-        }
+        body { font-family: Arial, sans-serif; background-color: #f5f5f5; margin: 0; }
+        .container { max-width: 800px; margin: 20px auto; }
+        .pedido { background: #fff; border-radius: 5px; padding: 15px; margin-bottom: 15px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); }
+        .pedido h3 { margin-bottom: 10px; }
+        .pedido p { margin: 5px 0; }
+        .btn-container { display: flex; justify-content: space-between; }
+        .status-pago { color: green; }
+        .status-pendente { color: red; }
     </style>
 </head>
-<?php include "navadm.php"; ?><br>
-<br>
-<body><br>
-    <h2>Todos os Pedidos</h2>
-    <?php
-    if (mysqli_num_rows($result) > 0) {
-        while ($pedido = mysqli_fetch_assoc($result)) {
-            // Recuperar o nome do material
-            $id_material = intval($pedido['id_material']);
-            $sql_material = "SELECT nome FROM material WHERE id_material = $id_material";
-            $result_material = mysqli_query($conexao, $sql_material);
-            $material = mysqli_fetch_assoc($result_material);
+<?php include "navadm.php"; ?>
+<body>
+    <div class="container" style="margin-top:5%;">
+        <h2 class="text-center">Todos os Pedidos</h2>
 
-            echo "<div class='pedido'>";
-            echo "<p><strong>Pedido ID:</strong> {$pedido['id_pedido']}</p>";
-            echo "<p><strong>Data:</strong> {$pedido['data']}</p>";
-            echo "<p><strong>Material:</strong> {$material['nome']}</p>";
-            echo "<p><strong>Quantidade:</strong> {$pedido['quantidade']}</p>";
-            echo "<p><strong>Status:</strong> {$pedido['status']}</p>";
+        <?php if (!empty($feedback)): ?>
+            <div class="alert alert-success"><?= $feedback ?></div>
+        <?php endif; ?>
 
-            echo "<form method='POST' id='form-{$pedido['id_pedido']}'>";
-            echo "<input type='hidden' name='pedido_id' value='{$pedido['id_pedido']}'>";
-            if ($pedido['status'] === 'Pago') {
-                echo "<button type='submit' class='btn btn-warning'>Marcar como Pendente</button>";
-                echo "<input type='hidden' name='marcar_pendente'>";
-            } else {
-                echo "<button type='button' class='btn btn-success' onclick='abrirModal({$pedido['id_pedido']})'>Marcar como Pago</button>";
-            }
-            echo "</form>";
-
-            echo "</div>";
-        }
-    } else {
-        echo "<p class='no-pedidos'>Nenhum pedido encontrado.</p>";
-    }
-    ?>
-
-    <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
+        <?php while ($pedido = mysqli_fetch_assoc($result)): ?>
+            <div class='pedido'>
+                <h3>Pedido: <?= $pedido['grupo_pedido'] ?></h3>
+                <p><strong>Data:</strong> <?= date("d/m/Y H:i", strtotime($pedido['data'])) ?></p>
+                <p><strong>Materiais:</strong> <?= $pedido['materiais'] ?></p>
+                <p><strong>Quantidade:</strong> <?= $pedido['quantidades'] ?></p>
+                <p><strong>Status:</strong> 
+                    <span class="<?= $pedido['status'] === 'Pago' ? 'status-pago' : 'status-pendente' ?>">
+                        <?= $pedido['status'] ?>
+                    </span>
+                </p>
+                <div class='btn-container'>
+                    <?php if ($pedido['status'] === 'Pago'): ?>
+                        <form method='POST'>
+                            <input type='hidden' name='pedido_id' value='<?= $pedido['grupo_pedido'] ?>'>
+                            <button type='submit' name='marcar_pendente' class='btn btn-warning'>Marcar como Pendente</button>
+                        </form>
+                    <?php else: ?>
+                        <button class='btn btn-success' onclick='abrirModal(<?= $pedido['grupo_pedido'] ?>)'>Marcar como Pago</button>
+                    <?php endif; ?>
+                </div>
+            </div>
+        <?php endwhile; ?>
+    </div>
+    
+    <!-- Modal de Confirmação -->
+    <div class="modal fade" id="confirmModal" tabindex="-1">
+        <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="confirmModalLabel">Confirmar Ação</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <h3 class="modal-title">Confirmar Ação</h3>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
                 <div class="modal-body">
-                    Tem certeza que deseja marcar este pedido como <strong>Pago</strong>? Caso esta ação seja desfeita, os respectivos produtos terão que ser atualizados manualmente na tabela.
+                    "Tem certeza que deseja marcar este pedido como <strong>Pago</strong>? 
+                    A ação podera ser desfeita entretanto os respectivos materiais pagos terão que ser corrigidos manualmente!!".
                 </div>
                 <div class="modal-footer">
                     <form method="POST" id="confirmForm">
@@ -161,5 +139,4 @@ $result = mysqli_query($conexao, $sql);
         }
     </script>
 </body>
-
 </html>
